@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Death Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <style>body {
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0; /* Remove default body margin */
+        padding: 20px;
+        background-color: #f4f4f9; /* Light background for contrast */
+    }
+    h1 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    /* Styles for the tab navigation (kept the same) */
+    .tab-nav {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #ccc;
+        width: 100%; /* Ensure tabs span full width of the view */
+        max-width: 1200px;
+    }
+    .tab-button {
+        padding: 10px 20px;
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+        font-size: 16px;
+        font-weight: bold;
+        transition: color 0.3s, border-bottom 0.3s;
+    }
+    .tab-button:hover {
+        color: #1E90FF;
+    }
+    .tab-button.active {
+        color: #1E90FF;
+        border-bottom: 3px solid #1E90FF;
+    }
+
+    /* Container for all tab contents (General and Player tabs) */
+    #content-general, .content-player {
+        width: 100%;
+        display: flex;
+        justify-content: center; /* Center the charts container inside the tab content */
+    }
+
+    /* Hide/Show logic for tab content */
+    .tab-content {
+        display: none;
+    }
+    .tab-content.active {
+        display: block;
+        width: 100%;
+    }
+
+    /* Chart Container: Holds the two charts and centers them */
+    .chart-container {
+        display: flex;
+        justify-content: center; /* Center the chart boxes horizontally */
+        gap: 40px; /* Space between the two charts */
+        width: 90vw; /* Use 90% of viewport width */
+        max-width: 1200px;
+        margin: 20px 0;
+    }
+
+    /* Chart Box: Sets the fixed width for each chart */
+    .chart-box {
+        /* Calculates 45% of the viewport width */
+        width: 45vw;
+        max-width: 540px; /* Optional cap to prevent charts from getting too massive */
+        background-color: white; /* White background for the chart area */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .chart-box h2 {
+        margin-top: 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+    /* ... (Add this inside your <style> block) ... */
+
+    .stats-box {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        text-align: left; /* Align text within the box */
+        font-size: 0.9em;
+        background-color: #fcfcfc;
+    }
+    .stats-box h3 {
+        margin: 0 0 10px 0;
+        color: #1E90FF;
+        font-size: 1.1em;
+    }
+    .stats-box ul {
+        padding-left: 20px;
+        margin: 5px 0;
+    }
+    </style>
+</head>
+<body>
+
+    <h1>Minecraft Server Death Metrics</h1>
+
+    <div class="tab-nav" id="player-tabs">
+        <button class="tab-button active" data-player="general">General Overview</button>
+        </div>
+
+    <div id="content-general" class="tab-content active">
+        <div class="chart-container">
+            <div class="chart-box">
+                <h2>Server-Wide Cause of Death</h2>
+                <canvas id="generalCauseOfDeathChart"></canvas>
+            </div>
+            <div class="chart-box" style="display: flex; flex-direction: column;">
+                <h2>Server-Wide Deaths Per Day</h2>
+                <canvas id="generalTimeSeriesChart"></canvas>
+                <div class="stats-box" id="generalStatsBox">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="player-tabs-content"></div>
+
+    <script>
+      const rawData = [
+        {% for (date, player, cause) in deaths %}
+          ['{{date}}', '{{player}}', '{{cause}}'],
+        {% endfor %}
+      ];
+    // Global variable to store all processed death records
+    // Global variable to store all processed death records
+let allProcessedDeaths = [];
+let allDeathCauses = [];
+let uniquePlayers = new Set();
+let serverWideDates = [];
+let continuousServerDates = [];
+const PIE_COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+    '#FF9F40', '#C9CBCE', '#008080', '#DC143C', '#32CD32',
+    '#000080', '#FFD700', '#8B008B', '#87CEEB', '#D2691E',
+    '#808000', '#FF69B4', '#40E0D0', '#A0522D', '#4B0082',
+    '#FF7F50', '#228B22', '#6A5ACD', '#BDB76B', '#BC8F8F',
+    '#EE82EE', '#191970', '#FF8C00', '#00FF7F', '#B22222'];
+
+/**
+ * --- CORE PROCESSING FUNCTION ---
+ * Uses native JS Date to parse the custom format.
+ */
+function initializeData(data) {
+    allProcessedDeaths = data.map(item => {
+        const customDateString = item[0];
+
+        // 1. Reformat the custom date string to one that JS Date can parse natively (e.g., '27Jul2025 02:17:53.841' -> '27 Jul 2025 02:17:53.841')
+        const formattedDateString = customDateString.replace(/(\d{2})([A-Za-z]{3})(\d{4})/, '$1 $2 $3');
+
+        // 2. Parse the reformatted string using native JavaScript
+        const dateObject = new Date(formattedDateString);
+
+        // 3. Create a simple display key (e.g., 'Dec 04 2025')
+        const dateKey = dateObject.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+
+        const player = item[1];
+        uniquePlayers.add(player); // Track unique players
+
+        // Standardize the cause of death (same logic as before)
+        let cause = item[2];
+        // Add more consolidation rules here...
+
+        return {
+            timestamp: dateObject.getTime(), // Store as milliseconds since epoch for sorting
+            player,
+            cause,
+            dateKey, // Use the formatted string for grouping/labeling
+        };
+    });
+}
+
+/**
+ * --- DATA AGGREGATION FUNCTION ---
+ * Aggregates deaths and sorts the pie chart data by count (descending).
+ */
+function aggregateData(deathsArray) {
+    // Pie Chart Aggregation: Create an object mapping cause -> count
+    const causeCountsObject = deathsArray.reduce((acc, item) => {
+        acc[item.cause] = (acc[item.cause] || 0) + 1;
+        return acc;
+    }, {});
+
+    // --- CHANGE HERE: Sorting the Pie Chart Data ---
+
+    // 1. Convert the object into an array of [cause, count] pairs:
+    const causeCountsArray = Object.entries(causeCountsObject);
+
+    // 2. Sort the array by count in descending order (highest count first)
+    // The count is the second element (index 1) in the pair: [cause, count]
+    causeCountsArray.sort((a, b) => b[1] - a[1]);
+
+    // 3. Extract the sorted labels and counts for Chart.js
+    const pieChartLabelsWithCounts = causeCountsArray.map(([cause, count]) => {
+        // Format the label as "Cause Name (Count)"
+        return `${cause} (${count})`;
+    });
+
+    const pieChartCounts = causeCountsArray.map(([cause, count]) => count);
+
+    const pieChartData = {
+        labels: pieChartLabelsWithCounts,
+        counts: pieChartCounts // Use the sorted counts array
+    };
+    // ---------------------------------------------
+
+    // Bar Chart Aggregation (remains the same)
+    const dailyCounts = deathsArray.reduce((acc, item) => {
+        acc[item.dateKey] = (acc[item.dateKey] || 0) + 1;
+        return acc;
+    }, {});
+
+    const barChartLabels = continuousServerDates;
+    const barChartValues = continuousServerDates.map(date => dailyCounts[date] || 0);
+
+    return { pieChartData, barChartLabels, barChartValues };
+}
+
+    /**
+ * --- CHART RENDERING FUNCTION ---
+ * Renders the two charts using aggregated data and specific canvas IDs.
+ */
+function renderCharts(aggregatedData, player) {
+    // 1. PIE CHART
+    const pieCtx = document.getElementById(`${player}CauseOfDeathChart`).getContext('2d');
+
+    if (window[`${player}PieChart`]) {
+        window[`${player}PieChart`].destroy();
+    }
+
+    window[`${player}PieChart`] = new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+            labels: aggregatedData.pieChartData.labels,
+            datasets: [{
+                label: 'Total Deaths',
+                data: aggregatedData.pieChartData.counts,
+                backgroundColor: aggregatedData.pieChartData.labels.map((_, i) => PIE_COLORS[i % PIE_COLORS.length]),
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'Breakdown by Death Cause' },
+                legend: {
+                    position: 'bottom', // Sets legend below the chart
+                }
+            }
+        }
+    });
+
+    // 2. CATEGORY BAR CHART
+    const barCtx = document.getElementById(`${player}TimeSeriesChart`).getContext('2d');
+
+    if (window[`${player}BarChart`]) {
+        window[`${player}BarChart`].destroy();
+    }
+
+    window[`${player}BarChart`] = new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: aggregatedData.barChartLabels,
+            datasets: [{
+                label: 'Daily Deaths',
+                backgroundColor: '#1E90FF',
+                borderColor: '#1E90FF',
+                data: aggregatedData.barChartValues
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'Deaths Trend' },
+                // === LEGEND CHANGE HERE ===
+                legend: {
+                    display: false, // Since there is only one bar series, it's usually cleaner to hide the legend
+                    position: 'bottom' // Keeping this here just in case you enable the legend later
+                }
+            },
+            scales: {
+                x: {
+                    type: 'category',
+                    title: { display: true, text: 'Date' }
+                },
+                y: { beginAtZero: true, title: { display: true, text: 'Number of Deaths' } }
+            }
+        }
+    });
+}
+// --- The rest of the tab-switching logic (switchTab and initDashboard) remains the same ---
+
+/**
+ * --- TAB SWITCHING LOGIC (COPIED FROM PREVIOUS RESPONSE) ---
+ */
+function switchTab(player) {
+    // 1. Update active button and content
+    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`[data-player="${player}"]`).classList.add('active');
+
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    document.getElementById(`content-${player}`).classList.add('active');
+
+    // 2. Filter data
+    let filteredDeaths;
+    let titlePrefix;
+
+    if (player === 'general') {
+        filteredDeaths = allProcessedDeaths;
+        titlePrefix = 'Server-Wide';
+
+    } else {
+        filteredDeaths = allProcessedDeaths.filter(death => death.player === player);
+        titlePrefix = `${player}'s`;
+    }
+
+    const uniqueDeaths = new Set(filteredDeaths.map(d => d.cause)).size;
+
+    // --- NEW LOGIC: Calculate Total Deaths for the Title ---
+    const totalDeaths = filteredDeaths.length;
+    const countSuffix = ` (${uniqueDeaths} Unique Deaths)`;
+
+    // 3. Update titles with the new count suffix
+    const causeTitleElement = document.getElementById(`${player}CauseOfDeathChart`).previousElementSibling;
+    const timeTitleElement = document.getElementById(`${player}TimeSeriesChart`).previousElementSibling;
+
+    causeTitleElement.textContent = `${titlePrefix} Cause of Death${countSuffix}`;
+    timeTitleElement.textContent = `${titlePrefix} Deaths Per Day${countSuffix}`;
+
+    // 4. Aggregate and Render
+    const aggregatedData = aggregateData(filteredDeaths);
+    renderCharts(aggregatedData, player);
+
+    // a. Get unique consolidated death reasons (from pie chart labels)
+    const uniqueConsolidatedReasons = aggregatedData.pieChartData.labels.length;
+
+    // b. Calculate unique death reasons no one else has (Player-specific only)
+    let exclusiveCausesHtml = '';
+
+    if (player !== 'general') {
+        // Get all unique RAW death messages for the current player
+        const currentPlayerRawCauses = new Set(filteredDeaths.map(d => d.cause));
+
+        // Find all raw causes made by ALL other players
+        const otherPlayersRawCauses = new Set(allProcessedDeaths
+            .filter(d => d.player !== player)
+            .map(d => d.cause));
+
+        // Filter the current player's causes to find those NOT in the other player set
+        const exclusiveCauses = Array.from(currentPlayerRawCauses).filter(cause => !otherPlayersRawCauses.has(cause));
+
+        if (exclusiveCauses.length > 0) {
+            exclusiveCausesHtml = `
+                <h4>Exclusive Death Reasons:</h4>
+                <ul>
+                    ${exclusiveCauses.map(cause => `<li>${cause}</li>`).join('')}
+                </ul>
+            `;
+        } else {
+            exclusiveCausesHtml = `<p>No death reasons are exclusive to ${player}.</p>`;
+        }
+    }
+
+
+    // c. Build the final stats HTML
+    const statsHtml = `
+        <h3>Summary Statistics:</h3>
+        <p><strong>Total Deaths:</strong> ${totalDeaths}</p>
+        <p><strong>Unique Death Reasons:</strong> ${uniqueConsolidatedReasons}</p>
+        ${exclusiveCausesHtml}
+    `;
+
+    // d. Inject into the placeholder
+    document.getElementById(`${player}StatsBox`).innerHTML = statsHtml;
+}
+
+
+/**
+ * --- INITIALIZATION FUNCTION (COPIED FROM PREVIOUS RESPONSE) ---
+ */
+function initDashboard() {
+    // 1. Process all raw data
+    initializeData(rawData);
+
+    // --- NEW LOGIC: Determine the Min and Max dates ---
+    if (allProcessedDeaths.length === 0) {
+        console.warn("No death data found to process.");
+        return;
+    }
+
+    // Sort all deaths by timestamp
+    const sortedDeaths = allProcessedDeaths.sort((a, b) => a.timestamp - b.timestamp);
+
+    // Get the Date object for the first and last death, stripped of time (midnight)
+    const minDate = new Date(sortedDeaths[0].timestamp);
+    minDate.setHours(0, 0, 0, 0);
+
+    const maxDate = new Date(sortedDeaths[sortedDeaths.length - 1].timestamp);
+    maxDate.setHours(0, 0, 0, 0);
+
+    // 2. Generate a continuous list of every day between minDate and maxDate
+    let currentDate = minDate;
+    while (currentDate <= maxDate) {
+        // Create the formatted string ('Dec 04 2025') for the Chart.js label
+        const dateKey = currentDate.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+        continuousServerDates.push(dateKey);
+
+        // Move to the next day
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+    // Now continuousServerDates holds every date from the start to the end of the log.
+
+    // 3. Setup tabs and content
+    const tabsContainer = document.getElementById('player-tabs');
+    const contentContainer = document.getElementById('player-tabs-content');
+
+    // ... (player button and content creation loop is the same) ...
+  uniquePlayers.forEach(player => {
+        // Create Tab Button (same as before)
+        const button = document.createElement('button');
+        button.className = 'tab-button';
+        button.setAttribute('data-player', player);
+        button.textContent = player;
+        tabsContainer.appendChild(button);
+
+      // Create Content Container
+        const contentDiv = document.createElement('div');
+        contentDiv.id = `content-${player}`;
+        contentDiv.className = 'tab-content content-player';
+        contentDiv.innerHTML = `
+            <div class="chart-container">
+                <div class="chart-box">
+                    <h2>${player}'s Cause of Death</h2>
+                    <canvas id="${player}CauseOfDeathChart"></canvas>
+                </div>
+                <div class="chart-box" style="display: flex; flex-direction: column;">
+                    <h2>${player}'s Deaths Per Day</h2>
+                    <canvas id="${player}TimeSeriesChart"></canvas>
+                    <div class="stats-box" id="${player}StatsBox">
+                        </div>
+                </div>
+            </div>
+        `;
+        contentContainer.appendChild(contentDiv);
+    });
+
+    // 4. Attach click handlers to all buttons (same as before)
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const player = e.currentTarget.getAttribute('data-player');
+            switchTab(player);
+        });
+    });
+
+    // 5. Render the initial 'General' view
+    switchTab('general');
+}
+
+// Run the initialization when the window loads
+window.onload = initDashboard;
+    </script>
+</body>
+</html>
