@@ -4,7 +4,7 @@ FROM rust:1.92-bookworm AS build
 
 # create an empty shell project
 RUN USER=root cargo new --bin mc-frontend
-WORKDIR /blind-eternities
+WORKDIR /mc-frontend
 
 # copy manifests
 COPY ./Cargo.lock ./Cargo.lock
