@@ -333,18 +333,15 @@ function switchTab(player) {
         titlePrefix = `${player}'s`;
     }
 
-    const uniqueDeaths = new Set(filteredDeaths.map(d => d.cause)).size;
-
     // --- NEW LOGIC: Calculate Total Deaths for the Title ---
     const totalDeaths = filteredDeaths.length;
-    const countSuffix = ` (${uniqueDeaths} Unique Deaths)`;
 
     // 3. Update titles with the new count suffix
     const causeTitleElement = document.getElementById(`${player}CauseOfDeathChart`).previousElementSibling;
     const timeTitleElement = document.getElementById(`${player}TimeSeriesChart`).previousElementSibling;
 
-    causeTitleElement.textContent = `${titlePrefix} Cause of Death${countSuffix}`;
-    timeTitleElement.textContent = `${titlePrefix} Deaths Per Day${countSuffix}`;
+    causeTitleElement.textContent = `${titlePrefix} Cause of Death`;
+    timeTitleElement.textContent = `${titlePrefix} Deaths Per Day`;
 
     // 4. Aggregate and Render
     const aggregatedData = aggregateData(filteredDeaths);
