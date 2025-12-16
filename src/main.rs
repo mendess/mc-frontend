@@ -3,11 +3,12 @@ use axum::{
     Router,
     extract::State,
     http::StatusCode,
-    response::{Html, IntoResponse},
+    response::{Html, IntoResponse, Redirect},
     routing::get,
 };
 use serde::Deserialize;
 use std::{fs::File, io, path::PathBuf, sync::Arc};
+use tower_http::services::ServeDir;
 
 #[derive(Deserialize)]
 struct Config {
@@ -27,6 +28,12 @@ async fn main() -> anyhow::Result<()> {
     let router = Router::new()
         .route("/", get(index))
         .route("/deaths", get(deaths))
+        .route("/super-secret-map", get(Redirect::to("/super-secret-map/")))
+        .nest_service(
+            "/super-secret-map/",
+            ServeDir::new(config.backups_dir.join("map/web-export"))
+                .append_index_html_on_directories(true),
+        )
         .with_state(Arc::new(config));
 
     println!("serving at http://localhost:50002");
@@ -68,7 +75,7 @@ async fn index() -> Result<impl IntoResponse, Error> {
     Ok(Html(Index.render()?))
 }
 
-async fn deaths(state: State<Arc<Config>>) -> Result<impl IntoResponse, Error> {
-    let deaths = serde_json::from_reader(File::open(state.backups_dir.join("deaths.json"))?)?;
+async fn deaths(config: State<Arc<Config>>) -> Result<impl IntoResponse, Error> {
+    let deaths = serde_json::from_reader(File::open(config.backups_dir.join("deaths.json"))?)?;
     Ok(Html(Deaths { deaths }.render()?))
 }
