@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Death Dashboard</title>
+    <title>Skill Issues</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
     <style>body {
@@ -109,11 +109,15 @@
         padding-left: 20px;
         margin: 5px 0;
     }
+    .stats-table {
+        width: 100%;
+        justify-content: center;
+    }
     </style>
 </head>
 <body>
 
-    <h1>Death Dashboard</h1>
+    <h1>Skill Issues</h1>
 
     <div class="tab-nav" id="player-tabs">
         <button class="tab-button active" data-player="general">General Overview</button>
@@ -261,7 +265,7 @@ function renderCharts(aggregatedData, player) {
         options: {
             responsive: true,
             plugins: {
-                title: { display: true, text: 'Breakdown by Death Cause' },
+                title: { display: true },
                 legend: {
                     position: 'bottom', // Sets legend below the chart
                 }
@@ -290,7 +294,7 @@ function renderCharts(aggregatedData, player) {
         options: {
             responsive: true,
             plugins: {
-                title: { display: true, text: 'Deaths Trend' },
+                title: { display: true },
                 // === LEGEND CHANGE HERE ===
                 legend: {
                     display: false, // Since there is only one bar series, it's usually cleaner to hide the legend
@@ -326,11 +330,11 @@ function switchTab(player) {
 
     if (player === 'general') {
         filteredDeaths = allProcessedDeaths;
-        titlePrefix = 'Server-Wide';
+        titlePrefix = '';
 
     } else {
         filteredDeaths = allProcessedDeaths.filter(death => death.player === player);
-        titlePrefix = `${player}'s`;
+        titlePrefix = `${player}'s `;
     }
 
     // --- NEW LOGIC: Calculate Total Deaths for the Title ---
@@ -340,8 +344,8 @@ function switchTab(player) {
     const causeTitleElement = document.getElementById(`${player}CauseOfDeathChart`).previousElementSibling;
     const timeTitleElement = document.getElementById(`${player}TimeSeriesChart`).previousElementSibling;
 
-    causeTitleElement.textContent = `${titlePrefix} Cause of Death`;
-    timeTitleElement.textContent = `${titlePrefix} Deaths Per Day`;
+    causeTitleElement.textContent = `${titlePrefix}Causes of Death`;
+    timeTitleElement.textContent = `${titlePrefix}Deaths Over Time`;
 
     // 4. Aggregate and Render
     const aggregatedData = aggregateData(filteredDeaths);
@@ -367,13 +371,13 @@ function switchTab(player) {
 
         if (exclusiveCauses.length > 0) {
             exclusiveCausesHtml = `
-                <h4>Exclusive Death Reasons:</h4>
+                <h4>Stuff that only ${player} was dumb enough to die to:</h4>
                 <ul>
                     ${exclusiveCauses.map(cause => `<li>${cause}</li>`).join('')}
                 </ul>
             `;
         } else {
-            exclusiveCausesHtml = `<p>No death reasons are exclusive to ${player}.</p>`;
+            exclusiveCausesHtml = `<p>No causes of death are exclusive to ${player}.</p>`;
         }
     }
 
@@ -381,8 +385,10 @@ function switchTab(player) {
     // c. Build the final stats HTML
     const statsHtml = `
         <h3>Summary Statistics:</h3>
-        <p><strong>Total Deaths:</strong> ${totalDeaths}</p>
-        <p><strong>Unique Death Reasons:</strong> ${uniqueConsolidatedReasons}</p>
+        <table class="stats-table">
+          <tr><th>Total Deaths</th><th>Distinct deaths</th><th>Death Diversity</th></tr>
+          <tr><td>${totalDeaths}</td><td>${uniqueConsolidatedReasons}</td><td>${(uniqueConsolidatedReasons / totalDeaths).toFixed(2) * 100}%</td></tr>
+        </table>
         ${exclusiveCausesHtml}
     `;
 
@@ -446,11 +452,11 @@ function initDashboard() {
         contentDiv.innerHTML = `
             <div class="chart-container">
                 <div class="chart-box">
-                    <h2>${player}'s Cause of Death</h2>
+                    <h2>${player}'s Causes of Death</h2>
                     <canvas id="${player}CauseOfDeathChart"></canvas>
                 </div>
                 <div class="chart-box" style="display: flex; flex-direction: column;">
-                    <h2>${player}'s Deaths Per Day</h2>
+                    <h2>${player}'s Deaths Over Time</h2>
                     <canvas id="${player}TimeSeriesChart"></canvas>
                     <div class="stats-box" id="${player}StatsBox">
                         </div>
