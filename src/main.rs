@@ -31,6 +31,22 @@ fn get_configuration() -> Result<Config, config::ConfigError> {
         .and_then(config::Config::try_deserialize)
 }
 
+fn add_map_routes(
+    mut router: Router<Arc<Config>>,
+    config: &Config,
+    maps: &[(&str, &str)],
+) -> Router<Arc<Config>> {
+    for (map, dir) in maps {
+        router = router
+            .route(map.trim_end_matches("/"), get(Redirect::to(map)))
+            .nest_service(
+                map,
+                ServeDir::new(config.backups_dir.join(dir)).append_index_html_on_directories(true),
+            );
+    }
+    router
+}
+
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     let config = get_configuration()?;
@@ -38,22 +54,17 @@ async fn main() -> anyhow::Result<()> {
         .route("/", get(index))
         .route("/deaths", get(deaths))
         .route("/mods", get(get_mods))
-        .route("/super-secret-map", get(Redirect::to("/super-secret-map/")))
-        .route(
-            "/super-secret-map-nether",
-            get(Redirect::to("/super-secret-map-nether/")),
-        )
-        .nest_service(
-            "/super-secret-map/",
-            ServeDir::new(config.backups_dir.join("map/web-export"))
-                .append_index_html_on_directories(true),
-        )
-        .nest_service(
-            "/super-secret-map-nether/",
-            ServeDir::new(config.backups_dir.join("map/web-export-nether"))
-                .append_index_html_on_directories(true),
-        )
-        .with_state(Arc::new(config));
+        .route("/maps", get(maps));
+    let router = add_map_routes(
+        router,
+        &config,
+        &[
+            ("/super-secret-map/", "map/web-export"),
+            ("/super-secret-map-nether/", "map/web-export-nether"),
+            ("/super-secret-map-nether-mid/", "map/web-export-nether-mid"),
+        ],
+    );
+    let router = router.with_state(Arc::new(config));
 
     println!("serving at http://localhost:50002");
     axum::serve(
@@ -92,6 +103,14 @@ struct Index;
 
 async fn index() -> Result<impl IntoResponse, Error> {
     Ok(Html(Index.render()?))
+}
+
+#[derive(Debug, Template)]
+#[template(path = "maps/index.html")]
+struct Maps;
+
+async fn maps() -> Result<impl IntoResponse, Error> {
+    Ok(Html(Maps.render()?))
 }
 
 async fn deaths(config: State<Arc<Config>>) -> Result<impl IntoResponse, Error> {
