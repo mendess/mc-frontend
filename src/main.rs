@@ -39,9 +39,18 @@ async fn main() -> anyhow::Result<()> {
         .route("/deaths", get(deaths))
         .route("/mods", get(get_mods))
         .route("/super-secret-map", get(Redirect::to("/super-secret-map/")))
+        .route(
+            "/super-secret-map-nether",
+            get(Redirect::to("/super-secret-map-nether/")),
+        )
         .nest_service(
             "/super-secret-map/",
             ServeDir::new(config.backups_dir.join("map/web-export"))
+                .append_index_html_on_directories(true),
+        )
+        .nest_service(
+            "/super-secret-map-nether/",
+            ServeDir::new(config.backups_dir.join("map/web-export-nether"))
                 .append_index_html_on_directories(true),
         )
         .with_state(Arc::new(config));
