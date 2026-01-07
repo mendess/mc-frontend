@@ -1,2 +1,2 @@
-backups_dir = "/home/mendess/minecraft-stuff/server"
-server_dir = "/home/mendess/minecraft-stuff/server/large-forever"
+backups_dir = "/tmp/backups/"
+server_dir = "/tmp/backups/map/large-forever/"

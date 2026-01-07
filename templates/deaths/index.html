@@ -120,78 +120,90 @@
     <h1>Skill Issues</h1>
 
     <div class="tab-nav" id="player-tabs">
-        <button class="tab-button active" data-player="general">General Overview</button>
-        </div>
-
-    <div id="content-general" class="tab-content active">
-        <div class="chart-container">
-            <div class="chart-box">
-                <h2>Server-Wide Cause of Death</h2>
-                <canvas id="generalCauseOfDeathChart"></canvas>
-            </div>
-            <div class="chart-box" style="display: flex; flex-direction: column;">
-                <h2>Server-Wide Deaths Per Day</h2>
-                <canvas id="generalTimeSeriesChart"></canvas>
-                <div class="stats-box" id="generalStatsBox">
-                    </div>
-            </div>
-        </div>
+      {% for p in players %}
+      <button class="tab-button" data-player='{{p.name}}'
+        onclick="switchTab('{{p.name}}')">{{p.name}}</button>
+      {% endfor %}
     </div>
 
-    <div id="player-tabs-content"></div>
+    <div id="content-general" class="tab-content active">
+      <div class="chart-container">
+        <div class="chart-box">
+          <h2>Server-Wide Cause of Death</h2>
+          <canvas id="generalCauseOfDeathChart"></canvas>
+        </div>
+        <div class="chart-box" style="display: flex; flex-direction: column;">
+          <h2>Server-Wide Deaths Per Day</h2>
+          <canvas id="generalTimeSeriesChart"></canvas>
+          <div class="stats-box" id="generalStatsBox">
+            <h3>Summary Statistics:</h3>
+            <table class="stats-table">
+              <tr><th>Total Deaths</th><th>Distinct deaths</th><th>Death Diversity</th></tr>
+              <tr>
+                <td>{{all_deaths.len()}}</td>
+                <td>{{unique_deaths}}</td>
+                <td>{{((unique_deaths as f64 / all_deaths.len() as f64) * 100.0) | fmt("{:.02}")}}%</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="player-tabs-content">
+      {% for p in players %}
+      <div id='content-{{p.name}}' class='tab-content content-player'>
+          <div class="chart-container">
+              <div class="chart-box">
+                  <h2>{{p.name}}'s Causes of Death</h2>
+                  <canvas id="{{p.name}}CauseOfDeathChart"></canvas>
+              </div>
+              <div class="chart-box" style="display: flex; flex-direction: column;">
+                <h2>{{p.name}}'s Deaths Over Time</h2>
+                  <canvas id="{{p.name}}TimeSeriesChart"></canvas>
+                  <div class="stats-box" id="{{p.name}}StatsBox">
+                    <h3>Summary Statistics:</h3>
+                    <table class="stats-table">
+                      <tr><th>Total Deaths</th><th>Distinct deaths</th><th>Death Diversity</th></tr>
+                      <tr>
+                        <td>{{p.total_deaths}}</td>
+                        <td>{{p.unique_deaths.len()}}</td>
+                        <td>{{((p.unique_deaths.len() as f64 / p.total_deaths as f64) * 100.0) | fmt("{:.02}") }}%</td>
+                      </tr>
+                    </table>
+                    {% if p.exclusive_deaths.len() > 0 %}
+                    <h4>Stuff that on {{p.name}} was dumb enough to die to:</h4>
+                    <ul>
+                      {% for d in p.exclusive_deaths %}
+                      <li>{{d}}</li>
+                      {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p>No causes of death are exclusive to {{p.name}}</p>
+                    {% endif %}
+                  </div>
+              </div>
+          </div>
+      </div>
+      {% endfor %}
+    </div>
 
     <script>
-      const rawData = [
-        {% for (date, player, cause) in deaths %}
-          ['{{date}}', '{{player}}', '{{cause}}'],
-        {% endfor %}
-      ];
-    // Global variable to store all processed death records
-    // Global variable to store all processed death records
-let allProcessedDeaths = [];
-let allDeathCauses = [];
-let uniquePlayers = new Set();
-let serverWideDates = [];
-let continuousServerDates = [];
+
+const allProcessedDeaths = [
+  {% for d in all_deaths %}
+  { timestamp: {{d.timestamp}}, player: '{{d.player}}', cause: '{{d.cause}}', dateKey: '{{d.date_key}}' },
+  {% endfor %}
+];
+const continuousServerDates = [
+  {% for d in all_dates %} '{{d}}', {% endfor %}
+];
 const PIE_COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
     '#FF9F40', '#C9CBCE', '#008080', '#DC143C', '#32CD32',
     '#000080', '#FFD700', '#8B008B', '#87CEEB', '#D2691E',
     '#808000', '#FF69B4', '#40E0D0', '#A0522D', '#4B0082',
     '#FF7F50', '#228B22', '#6A5ACD', '#BDB76B', '#BC8F8F',
     '#EE82EE', '#191970', '#FF8C00', '#00FF7F', '#B22222'];
-
-/**
- * --- CORE PROCESSING FUNCTION ---
- * Uses native JS Date to parse the custom format.
- */
-function initializeData(data) {
-    allProcessedDeaths = data.map(item => {
-        const customDateString = item[0];
-
-        // 1. Reformat the custom date string to one that JS Date can parse natively (e.g., '27Jul2025 02:17:53.841' -> '27 Jul 2025 02:17:53.841')
-        const formattedDateString = customDateString.replace(/(\d{2})([A-Za-z]{3})(\d{4})/, '$1 $2 $3');
-
-        // 2. Parse the reformatted string using native JavaScript
-        const dateObject = new Date(formattedDateString);
-
-        // 3. Create a simple display key (e.g., 'Dec 04 2025')
-        const dateKey = dateObject.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
-
-        const player = item[1];
-        uniquePlayers.add(player); // Track unique players
-
-        // Standardize the cause of death (same logic as before)
-        let cause = item[2];
-        // Add more consolidation rules here...
-
-        return {
-            timestamp: dateObject.getTime(), // Store as milliseconds since epoch for sorting
-            player,
-            cause,
-            dateKey, // Use the formatted string for grouping/labeling
-        };
-    });
-}
 
 /**
  * --- DATA AGGREGATION FUNCTION ---
@@ -239,7 +251,7 @@ function aggregateData(deathsArray) {
     return { pieChartData, barChartLabels, barChartValues };
 }
 
-    /**
+/**
  * --- CHART RENDERING FUNCTION ---
  * Renders the two charts using aggregated data and specific canvas IDs.
  */
@@ -311,11 +323,7 @@ function renderCharts(aggregatedData, player) {
         }
     });
 }
-// --- The rest of the tab-switching logic (switchTab and initDashboard) remains the same ---
 
-/**
- * --- TAB SWITCHING LOGIC (COPIED FROM PREVIOUS RESPONSE) ---
- */
 function switchTab(player) {
     // 1. Update active button and content
     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
@@ -325,161 +333,15 @@ function switchTab(player) {
     document.getElementById(`content-${player}`).classList.add('active');
 
     // 2. Filter data
-    let filteredDeaths;
-    let titlePrefix;
-
-    if (player === 'general') {
-        filteredDeaths = allProcessedDeaths;
-        titlePrefix = '';
-
-    } else {
-        filteredDeaths = allProcessedDeaths.filter(death => death.player === player);
-        titlePrefix = `${player}'s `;
-    }
-
-    // --- NEW LOGIC: Calculate Total Deaths for the Title ---
-    const totalDeaths = filteredDeaths.length;
-
-    // 3. Update titles with the new count suffix
-    const causeTitleElement = document.getElementById(`${player}CauseOfDeathChart`).previousElementSibling;
-    const timeTitleElement = document.getElementById(`${player}TimeSeriesChart`).previousElementSibling;
-
-    causeTitleElement.textContent = `${titlePrefix}Causes of Death`;
-    timeTitleElement.textContent = `${titlePrefix}Deaths Over Time`;
+    const filteredDeaths = allProcessedDeaths.filter(death => death.player === player);
 
     // 4. Aggregate and Render
     const aggregatedData = aggregateData(filteredDeaths);
     renderCharts(aggregatedData, player);
-
-    // a. Get unique consolidated death reasons (from pie chart labels)
-    const uniqueConsolidatedReasons = aggregatedData.pieChartData.labels.length;
-
-    // b. Calculate unique death reasons no one else has (Player-specific only)
-    let exclusiveCausesHtml = '';
-
-    if (player !== 'general') {
-        // Get all unique RAW death messages for the current player
-        const currentPlayerRawCauses = new Set(filteredDeaths.map(d => d.cause));
-
-        // Find all raw causes made by ALL other players
-        const otherPlayersRawCauses = new Set(allProcessedDeaths
-            .filter(d => d.player !== player)
-            .map(d => d.cause));
-
-        // Filter the current player's causes to find those NOT in the other player set
-        const exclusiveCauses = Array.from(currentPlayerRawCauses).filter(cause => !otherPlayersRawCauses.has(cause));
-
-        if (exclusiveCauses.length > 0) {
-            exclusiveCausesHtml = `
-                <h4>Stuff that only ${player} was dumb enough to die to:</h4>
-                <ul>
-                    ${exclusiveCauses.map(cause => `<li>${cause}</li>`).join('')}
-                </ul>
-            `;
-        } else {
-            exclusiveCausesHtml = `<p>No causes of death are exclusive to ${player}.</p>`;
-        }
-    }
-
-
-    // c. Build the final stats HTML
-    const statsHtml = `
-        <h3>Summary Statistics:</h3>
-        <table class="stats-table">
-          <tr><th>Total Deaths</th><th>Distinct deaths</th><th>Death Diversity</th></tr>
-          <tr><td>${totalDeaths}</td><td>${uniqueConsolidatedReasons}</td><td>${(uniqueConsolidatedReasons / totalDeaths).toFixed(2) * 100}%</td></tr>
-        </table>
-        ${exclusiveCausesHtml}
-    `;
-
-    // d. Inject into the placeholder
-    document.getElementById(`${player}StatsBox`).innerHTML = statsHtml;
-}
-
-
-/**
- * --- INITIALIZATION FUNCTION (COPIED FROM PREVIOUS RESPONSE) ---
- */
-function initDashboard() {
-    // 1. Process all raw data
-    initializeData(rawData);
-
-    // --- NEW LOGIC: Determine the Min and Max dates ---
-    if (allProcessedDeaths.length === 0) {
-        console.warn("No death data found to process.");
-        return;
-    }
-
-    // Sort all deaths by timestamp
-    const sortedDeaths = allProcessedDeaths.sort((a, b) => a.timestamp - b.timestamp);
-
-    // Get the Date object for the first and last death, stripped of time (midnight)
-    const minDate = new Date(sortedDeaths[0].timestamp);
-    minDate.setHours(0, 0, 0, 0);
-
-    const maxDate = new Date(sortedDeaths[sortedDeaths.length - 1].timestamp);
-    maxDate.setHours(0, 0, 0, 0);
-
-    // 2. Generate a continuous list of every day between minDate and maxDate
-    let currentDate = minDate;
-    while (currentDate <= maxDate) {
-        // Create the formatted string ('Dec 04 2025') for the Chart.js label
-        const dateKey = currentDate.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
-        continuousServerDates.push(dateKey);
-
-        // Move to the next day
-        currentDate.setDate(currentDate.getDate() + 1);
-    }
-    // Now continuousServerDates holds every date from the start to the end of the log.
-
-    // 3. Setup tabs and content
-    const tabsContainer = document.getElementById('player-tabs');
-    const contentContainer = document.getElementById('player-tabs-content');
-
-    // ... (player button and content creation loop is the same) ...
-  uniquePlayers.forEach(player => {
-        // Create Tab Button (same as before)
-        const button = document.createElement('button');
-        button.className = 'tab-button';
-        button.setAttribute('data-player', player);
-        button.textContent = player;
-        tabsContainer.appendChild(button);
-
-      // Create Content Container
-        const contentDiv = document.createElement('div');
-        contentDiv.id = `content-${player}`;
-        contentDiv.className = 'tab-content content-player';
-        contentDiv.innerHTML = `
-            <div class="chart-container">
-                <div class="chart-box">
-                    <h2>${player}'s Causes of Death</h2>
-                    <canvas id="${player}CauseOfDeathChart"></canvas>
-                </div>
-                <div class="chart-box" style="display: flex; flex-direction: column;">
-                    <h2>${player}'s Deaths Over Time</h2>
-                    <canvas id="${player}TimeSeriesChart"></canvas>
-                    <div class="stats-box" id="${player}StatsBox">
-                        </div>
-                </div>
-            </div>
-        `;
-        contentContainer.appendChild(contentDiv);
-    });
-
-    // 4. Attach click handlers to all buttons (same as before)
-    document.querySelectorAll('.tab-button').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const player = e.currentTarget.getAttribute('data-player');
-            switchTab(player);
-        });
-    });
-
-    // 5. Render the initial 'General' view
-    switchTab('general');
 }
 
 // Run the initialization when the window loads
-window.onload = initDashboard;
+window.onload = () => renderCharts(aggregateData(allProcessedDeaths), 'general');
     </script>
 </body>
 </html>

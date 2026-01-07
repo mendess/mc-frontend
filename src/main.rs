@@ -1,3 +1,5 @@
+mod deaths;
+
 use askama::Template;
 use axum::{
     Router,
@@ -10,7 +12,6 @@ use futures::TryStreamExt;
 use regex::Regex;
 use serde::Deserialize;
 use std::{
-    fs::File,
     io,
     path::{Path, PathBuf},
     sync::{Arc, LazyLock},
@@ -54,7 +55,7 @@ async fn main() -> anyhow::Result<()> {
     let config = get_configuration()?;
     let router = Router::new()
         .route("/", get(index))
-        .route("/deaths", get(deaths))
+        .route("/deaths", get(deaths::deaths))
         .route("/mods", get(get_mods))
         .route("/maps", get(maps));
     let router = add_map_routes(
@@ -94,12 +95,6 @@ impl IntoResponse for Error {
 }
 
 #[derive(Debug, Template)]
-#[template(path = "deaths/index.html")]
-struct Deaths {
-    deaths: Vec<(String, String, String)>,
-}
-
-#[derive(Debug, Template)]
 #[template(path = "index.html")]
 struct Index;
 
@@ -113,11 +108,6 @@ struct Maps;
 
 async fn maps() -> Result<impl IntoResponse, Error> {
     Ok(Html(Maps.render()?))
-}
-
-async fn deaths(config: State<Arc<Config>>) -> Result<impl IntoResponse, Error> {
-    let deaths = serde_json::from_reader(File::open(config.backups_dir.join("deaths.json"))?)?;
-    Ok(Html(Deaths { deaths }.render()?))
 }
 
 #[derive(Debug, Default, Template)]
