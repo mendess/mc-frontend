@@ -12,7 +12,7 @@ use serde::Deserialize;
 use std::{
     fs::File,
     io,
-    path::PathBuf,
+    path::{Path, PathBuf},
     sync::{Arc, LazyLock},
 };
 use tokio_stream::wrappers::ReadDirStream;
@@ -36,12 +36,14 @@ fn add_map_routes(
     config: &Config,
     maps: &[(&str, &str)],
 ) -> Router<Arc<Config>> {
+    let base = Path::new("map/web-export");
     for (map, dir) in maps {
         router = router
             .route(map.trim_end_matches("/"), get(Redirect::to(map)))
             .nest_service(
                 map,
-                ServeDir::new(config.backups_dir.join(dir)).append_index_html_on_directories(true),
+                ServeDir::new(config.backups_dir.join(base).join(dir))
+                    .append_index_html_on_directories(true),
             );
     }
     router
@@ -59,9 +61,9 @@ async fn main() -> anyhow::Result<()> {
         router,
         &config,
         &[
-            ("/super-secret-map/", "map/web-export"),
-            ("/super-secret-map-nether/", "map/web-export-nether"),
-            ("/super-secret-map-nether-mid/", "map/web-export-nether-mid"),
+            ("/super-secret-map/", "overworld-day"),
+            ("/super-secret-map-nether/", "nether"),
+            ("/super-secret-map-nether-mid/", "nether-mid"),
         ],
     );
     let router = router.with_state(Arc::new(config));
