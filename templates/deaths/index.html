@@ -140,9 +140,9 @@
             <table class="stats-table">
               <tr><th>Total Deaths</th><th>Distinct deaths</th><th>Death Diversity</th></tr>
               <tr>
-                <td>{{all_deaths.len()}}</td>
-                <td>{{unique_deaths}}</td>
-                <td>{{((unique_deaths as f64 / all_deaths.len() as f64) * 100.0) | fmt("{:.02}")}}%</td>
+                <td>{{total_deaths}}</td>
+                <td>{{unique_deaths.len()}}</td>
+                <td>{{((unique_deaths.len() as f64 / total_deaths as f64) * 100.0) | fmt("{:.02}")}}%</td>
               </tr>
             </table>
           </div>
@@ -190,14 +190,6 @@
 
     <script>
 
-const allProcessedDeaths = [
-  {% for d in all_deaths %}
-  { timestamp: {{d.timestamp}}, player: '{{d.player}}', cause: '{{d.cause}}', dateKey: '{{d.date_key}}' },
-  {% endfor %}
-];
-const continuousServerDates = [
-  {% for d in all_dates %} '{{d}}', {% endfor %}
-];
 const PIE_COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
     '#FF9F40', '#C9CBCE', '#008080', '#DC143C', '#32CD32',
     '#000080', '#FFD700', '#8B008B', '#87CEEB', '#D2691E',
@@ -205,102 +197,85 @@ const PIE_COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
     '#FF7F50', '#228B22', '#6A5ACD', '#BDB76B', '#BC8F8F',
     '#EE82EE', '#191970', '#FF8C00', '#00FF7F', '#B22222'];
 
-/**
- * --- DATA AGGREGATION FUNCTION ---
- * Aggregates deaths and sorts the pie chart data by count (descending).
- */
-function aggregateData(deathsArray) {
-    // Pie Chart Aggregation: Create an object mapping cause -> count
-    const causeCountsObject = deathsArray.reduce((acc, item) => {
-        acc[item.cause] = (acc[item.cause] || 0) + 1;
-        return acc;
-    }, {});
+const player_charts = {
+  {% for p in players %}'{{p.name}}': {
+    unique_deaths: {
+      labels: [
+        {%- for l in p.unique_deaths.labels %}'{{l}}',
+        {% endfor %}],
+      values: [
+        {%- for v in p.unique_deaths.values %}{{v}},
+        {% endfor %}]
+    },
+    deaths_over_time: {
+      labels: [
+        {%- for l in p.deaths_over_time.labels %}'{{l}}',
+        {% endfor %}],
+      values: [
+        {%- for v in p.deaths_over_time.values %}{{v}},
+        {% endfor %}]
+    }
+  },
+  {% endfor %}
+};
 
-    // --- CHANGE HERE: Sorting the Pie Chart Data ---
+const general_charts = {
+  unique_deaths: {
+    labels: [
+      {%- for l in unique_deaths.labels %}'{{l}}',
+      {%- endfor %}
+    ],
+    values: [
+      {% for v in unique_deaths.values %}{{v}},
+      {%- endfor %}
+    ]
+  },
+  deaths_over_time: {
+    labels: [
+      {%- for l in deaths_over_time.labels %}'{{l}}',
+      {%- endfor %}
+    ],
+    values: [
+      {%- for v in deaths_over_time.values %}{{v}},
+      {%- endfor %}
+    ]
+  }
+};
 
-    // 1. Convert the object into an array of [cause, count] pairs:
-    const causeCountsArray = Object.entries(causeCountsObject);
-
-    // 2. Sort the array by count in descending order (highest count first)
-    // The count is the second element (index 1) in the pair: [cause, count]
-    causeCountsArray.sort((a, b) => b[1] - a[1]);
-
-    // 3. Extract the sorted labels and counts for Chart.js
-    const pieChartLabelsWithCounts = causeCountsArray.map(([cause, count]) => {
-        // Format the label as "Cause Name (Count)"
-        return `${cause} (${count})`;
-    });
-
-    const pieChartCounts = causeCountsArray.map(([cause, count]) => count);
-
-    const pieChartData = {
-        labels: pieChartLabelsWithCounts,
-        counts: pieChartCounts // Use the sorted counts array
-    };
-    // ---------------------------------------------
-
-    // Bar Chart Aggregation (remains the same)
-    const dailyCounts = deathsArray.reduce((acc, item) => {
-        acc[item.dateKey] = (acc[item.dateKey] || 0) + 1;
-        return acc;
-    }, {});
-
-    const barChartLabels = continuousServerDates;
-    const barChartValues = continuousServerDates.map(date => dailyCounts[date] || 0);
-
-    return { pieChartData, barChartLabels, barChartValues };
+function renderPieChart(ctx, data) {
+  return new Chart(ctx, {
+      type: 'pie',
+      data: {
+          labels: data.labels,
+          datasets: [{
+              label: 'Total Deaths',
+              data: data.values,
+              backgroundColor: data.labels.map((_, i) => PIE_COLORS[i % PIE_COLORS.length]),
+              hoverOffset: 4
+          }]
+      },
+      options: {
+          responsive: true,
+          plugins: {
+              title: { display: true },
+              legend: {
+                  position: 'bottom', // Sets legend below the chart
+              }
+          }
+      }
+  });
 }
 
-/**
- * --- CHART RENDERING FUNCTION ---
- * Renders the two charts using aggregated data and specific canvas IDs.
- */
-function renderCharts(aggregatedData, player) {
-    // 1. PIE CHART
-    const pieCtx = document.getElementById(`${player}CauseOfDeathChart`).getContext('2d');
-
-    if (window[`${player}PieChart`]) {
-        window[`${player}PieChart`].destroy();
-    }
-
-    window[`${player}PieChart`] = new Chart(pieCtx, {
-        type: 'pie',
-        data: {
-            labels: aggregatedData.pieChartData.labels,
-            datasets: [{
-                label: 'Total Deaths',
-                data: aggregatedData.pieChartData.counts,
-                backgroundColor: aggregatedData.pieChartData.labels.map((_, i) => PIE_COLORS[i % PIE_COLORS.length]),
-                hoverOffset: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: { display: true },
-                legend: {
-                    position: 'bottom', // Sets legend below the chart
-                }
-            }
-        }
-    });
-
-    // 2. CATEGORY BAR CHART
-    const barCtx = document.getElementById(`${player}TimeSeriesChart`).getContext('2d');
-
-    if (window[`${player}BarChart`]) {
-        window[`${player}BarChart`].destroy();
-    }
-
-    window[`${player}BarChart`] = new Chart(barCtx, {
+function renderBarChart(ctx, data) {
+  new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: aggregatedData.barChartLabels,
+            labels: data.labels,
             datasets: [{
                 label: 'Daily Deaths',
                 backgroundColor: '#1E90FF',
                 borderColor: '#1E90FF',
-                data: aggregatedData.barChartValues
+                data: data.values,
             }]
         },
         options: {
@@ -324,24 +299,37 @@ function renderCharts(aggregatedData, player) {
     });
 }
 
+/**
+ * --- CHART RENDERING FUNCTION ---
+ * Renders the two charts using aggregated data and specific canvas IDs.
+ */
+function renderCharts(player) {
+    const data = player === 'general' ? general_charts : player_charts[player];
+
+    if (!window[`${player}PieChart`]) {
+      const pieCtx = document.getElementById(`${player}CauseOfDeathChart`).getContext('2d');
+      window[`${player}PieChart`] = renderPieChart(pieCtx, data.unique_deaths);
+    }
+
+    if (!window[`${player}BarChart`]) {
+        const barCtx = document.getElementById(`${player}TimeSeriesChart`).getContext('2d');
+        window[`${player}BarChart`] = renderBarChart(barCtx, data.deaths_over_time);
+    }
+
+}
+
 function switchTab(player) {
-    // 1. Update active button and content
     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
     document.querySelector(`[data-player="${player}"]`).classList.add('active');
 
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
     document.getElementById(`content-${player}`).classList.add('active');
 
-    // 2. Filter data
-    const filteredDeaths = allProcessedDeaths.filter(death => death.player === player);
-
-    // 4. Aggregate and Render
-    const aggregatedData = aggregateData(filteredDeaths);
-    renderCharts(aggregatedData, player);
+    renderCharts(player);
 }
 
 // Run the initialization when the window loads
-window.onload = () => renderCharts(aggregateData(allProcessedDeaths), 'general');
+window.onload = () => renderCharts('general');
     </script>
 </body>
 </html>

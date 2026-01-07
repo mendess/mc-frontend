@@ -6,44 +6,83 @@ use axum::{
 };
 use chrono::{Days, NaiveDateTime};
 use serde::{Deserialize, Serialize};
-use std::{
-    collections::{HashMap, HashSet},
-    fs::File,
-    sync::Arc,
-};
+use std::{collections::HashMap, fs::File, sync::Arc};
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Deaths {
-    timestamp: i64,
     #[serde(skip)]
-    timestamp_chrono: NaiveDateTime,
+    timestamp: NaiveDateTime,
     player: String,
     cause: String,
-    date_key: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Default)]
+struct Chart {
+    labels: Vec<String>,
+    values: Vec<u64>,
+}
+
+impl Chart {
+    fn new(data: Vec<(String, u64)>) -> Self {
+        let (labels, values) = data.into_iter().collect();
+        Self { labels, values }
+    }
+
+    fn inc(&mut self, s: String) {
+        self.inc_by(s, 1);
+    }
+
+    fn inc_by(&mut self, s: String, amount: u64) {
+        match self.labels.iter().position(|l| *l == s) {
+            Some(i) => self.values[i] += amount,
+            None => {
+                self.labels.push(s);
+                self.values.push(amount);
+            }
+        }
+    }
+
+    fn add_0(&mut self, s: String) {
+        self.labels.push(s);
+        self.values.push(0);
+    }
+
+    fn len(&self) -> usize {
+        self.labels.len()
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Player {
     name: String,
     total_deaths: u64,
-    unique_deaths: Vec<String>,
-    exclusive_deaths: Vec<usize>,
+    exclusive_deaths: Vec<String>,
+    unique_deaths: Chart,
+    deaths_over_time: Chart,
+}
+
+impl Player {
+    fn new(name: String) -> Self {
+        Self {
+            name,
+            total_deaths: 0,
+            exclusive_deaths: vec![],
+            unique_deaths: Default::default(),
+            deaths_over_time: Default::default(),
+        }
+    }
 }
 
 #[derive(Debug, Template, Default)]
 #[template(path = "deaths/index.html")]
 struct DeathsTemplate {
-    all_deaths: Vec<Deaths>,
-    unique_deaths: usize,
+    total_deaths: usize,
     players: Vec<Player>,
-    all_dates: Vec<String>,
+    unique_deaths: Chart,
+    deaths_over_time: Chart,
 }
 
 pub async fn deaths(config: State<Arc<Config>>) -> Result<impl IntoResponse, Error> {
-    fn date_key_format(d: &NaiveDateTime) -> String {
-        d.format("%d %b %Y").to_string()
-    }
-
     let raw_data = serde_json::from_reader::<_, Vec<(String, String, String)>>(File::open(
         config.backups_dir.join("deaths.json"),
     )?)?;
@@ -61,66 +100,101 @@ pub async fn deaths(config: State<Arc<Config>>) -> Result<impl IntoResponse, Err
             let player = match players.iter_mut().find(|p| p.name == player) {
                 Some(p) => p,
                 None => {
-                    players.push(Player {
-                        name: player,
-                        total_deaths: 0,
-                        unique_deaths: vec![],
-                        exclusive_deaths: vec![],
-                    });
+                    players.push(Player::new(player));
                     players.last_mut().unwrap()
                 }
             };
-            if !player.unique_deaths.contains(&cause) {
-                player.unique_deaths.push(cause.clone());
-            }
             player.total_deaths += 1;
             let date = NaiveDateTime::parse_from_str(&date, "%d%b%Y %H:%M:%S%.f").unwrap();
-            let timestamp = date.and_utc().timestamp_millis();
-            let date_key = date_key_format(&date);
             Deaths {
-                timestamp,
-                timestamp_chrono: date,
+                timestamp: date,
                 player: player.name.clone(),
                 cause,
-                date_key,
             }
         })
         .collect::<Vec<_>>();
-    let mut map = HashMap::new();
-    for (pi, p) in players.iter().enumerate() {
-        for (di, death) in p.unique_deaths.iter().enumerate() {
-            if players
-                .iter()
-                .flat_map(|p| &p.unique_deaths)
-                .all(|d| *d != *death)
-            {
-                map.entry(pi).or_insert_with(Vec::new).push(di);
-            }
-        }
-    }
-    for (player, exclusive_deaths) in map {
-        players[player].exclusive_deaths = exclusive_deaths;
-    }
     deaths.sort_by_key(|d| d.timestamp);
-    let mut all_dates = Vec::new();
-    let min_date = deaths.first().unwrap();
-    let max_date = deaths.last().unwrap();
-    let mut current_date = min_date.timestamp_chrono;
-    while current_date < max_date.timestamp_chrono {
-        all_dates.push(date_key_format(&current_date));
-        current_date = current_date.checked_add_days(Days::new(1)).unwrap();
+
+    let deaths_over_time_map = deaths.iter().fold(HashMap::new(), |mut acc, d| {
+        let (count, players): &mut (u64, Vec<String>) = acc.entry(d.timestamp.date()).or_default();
+        *count += 1;
+        players.push(d.player.clone());
+        acc
+    });
+
+    let deaths_over_time = {
+        let max_date = deaths.last().unwrap().timestamp.date();
+        let mut current_date = deaths.first().unwrap().timestamp.date();
+        let mut deaths_over_time = Chart::default();
+        while current_date <= max_date {
+            let date_key = current_date.format("%d %b %Y").to_string();
+            if let Some((dot, dead_players)) = deaths_over_time_map.get(&current_date) {
+                for dp in dead_players {
+                    players
+                        .iter_mut()
+                        .filter(|p| p.name == *dp)
+                        .for_each(|p| p.deaths_over_time.inc(date_key.clone()));
+                }
+                deaths_over_time.inc_by(date_key, *dot);
+            } else {
+                for p in &mut players {
+                    p.deaths_over_time.add_0(date_key.clone());
+                }
+                deaths_over_time.add_0(date_key);
+            }
+            current_date = current_date.checked_add_days(Days::new(1)).unwrap();
+        }
+        deaths_over_time
+    };
+
+    fn death_pie_chart<I>(i: I) -> Chart
+    where
+        I: Iterator,
+        I::Item: AsRef<str>,
+    {
+        let mut unique_deaths = i
+            .map(|d| d.as_ref().to_owned())
+            .fold(HashMap::<String, u64>::new(), |mut acc, c| {
+                *acc.entry(c).or_default() += 1;
+                acc
+            })
+            .into_iter()
+            .collect::<Vec<(_, _)>>();
+
+        unique_deaths.sort_by_key(|(_, n)| std::cmp::Reverse(*n));
+        Chart::new(unique_deaths)
+    }
+
+    let unique_deaths = death_pie_chart(deaths.iter().map(|d| &d.cause));
+    for p in &mut players {
+        p.unique_deaths = death_pie_chart(
+            deaths
+                .iter()
+                .filter(|d| d.player == p.name)
+                .map(|d| &d.cause),
+        );
+    }
+    for p in &mut players {
+        p.exclusive_deaths = p
+            .unique_deaths
+            .labels
+            .iter()
+            .filter(|pd| {
+                deaths
+                    .iter()
+                    .filter(|d| d.cause == **pd)
+                    .all(|d| d.player == p.name)
+            })
+            .cloned()
+            .collect();
     }
 
     Ok(Html(
         DeathsTemplate {
-            unique_deaths: deaths
-                .iter()
-                .map(|d| &d.cause)
-                .collect::<HashSet<_>>()
-                .len(),
-            all_deaths: deaths,
+            total_deaths: deaths.len(),
             players,
-            all_dates,
+            deaths_over_time,
+            unique_deaths,
         }
         .render()?,
     ))
