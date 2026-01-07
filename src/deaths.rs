@@ -1,10 +1,10 @@
 use crate::{Config, Error};
 use askama::Template;
 use axum::{
-    extract::State,
+    extract::{Query, State},
     response::{Html, IntoResponse},
 };
-use chrono::{Days, NaiveDateTime};
+use chrono::{Datelike, Days, NaiveDateTime};
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, fs::File, sync::Arc};
 
@@ -76,13 +76,22 @@ impl Player {
 #[derive(Debug, Template, Default)]
 #[template(path = "deaths/index.html")]
 struct DeathsTemplate {
+    years: Vec<i32>,
     total_deaths: usize,
     players: Vec<Player>,
     unique_deaths: Chart,
     deaths_over_time: Chart,
 }
 
-pub async fn deaths(config: State<Arc<Config>>) -> Result<impl IntoResponse, Error> {
+#[derive(Debug, Deserialize)]
+pub struct DeathQuery {
+    year: Option<i32>,
+}
+
+pub async fn deaths(
+    config: State<Arc<Config>>,
+    Query(DeathQuery { year }): Query<DeathQuery>,
+) -> Result<impl IntoResponse, Error> {
     let raw_data = serde_json::from_reader::<_, Vec<(String, String, String)>>(File::open(
         config.backups_dir.join("deaths.json"),
     )?)?;
@@ -112,6 +121,7 @@ pub async fn deaths(config: State<Arc<Config>>) -> Result<impl IntoResponse, Err
                 cause,
             }
         })
+        .filter(|d| year.is_none_or(|y| d.timestamp.year() == y))
         .collect::<Vec<_>>();
     deaths.sort_by_key(|d| d.timestamp);
 
@@ -188,9 +198,17 @@ pub async fn deaths(config: State<Arc<Config>>) -> Result<impl IntoResponse, Err
             .cloned()
             .collect();
     }
+    let mut years = deaths
+        .iter()
+        .map(|d| d.timestamp.year())
+        .collect::<Vec<_>>();
+
+    years.sort();
+    years.dedup();
 
     Ok(Html(
         DeathsTemplate {
+            years,
             total_deaths: deaths.len(),
             players,
             deaths_over_time,

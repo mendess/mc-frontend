@@ -21,7 +21,15 @@
     }
 
     /* Styles for the tab navigation (kept the same) */
-    .tab-nav {
+    .tab-nav-years {
+        display: flex;
+        justify-content: left;
+        border-bottom: 2px solid #ccc;
+        width: 100%; /* Ensure tabs span full width of the view */
+        max-width: 1200px;
+    }
+    /* Styles for the tab navigation (kept the same) */
+    .tab-nav-players {
         display: flex;
         justify-content: center;
         margin-bottom: 20px;
@@ -119,7 +127,15 @@
 
     <h1>Skill Issues</h1>
 
-    <div class="tab-nav" id="player-tabs">
+    {% if years.len() > 1 %}
+    <div class="tab-nav-years" id="year-tabs">
+      <a class="tab-button" href="/deaths">All Time</a>
+      {% for y in years %}
+      <a class="tab-button" href="/deaths?year={{y}}">{{y}}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <div class="tab-nav-players" id="player-tabs">
       {% for p in players %}
       <button class="tab-button" data-player='{{p.name}}'
         onclick="switchTab('{{p.name}}')">{{p.name}}</button>
