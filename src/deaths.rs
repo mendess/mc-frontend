@@ -266,9 +266,9 @@ pub async fn deaths(
 
     let mut years = Vec::new();
     let mut players = Vec::<Player>::new();
+
     let deaths = deaths
         .iter()
-        .rev()
         .inspect(|d| match years.binary_search(&d.timestamp.year()) {
             Ok(_) => {}
             Err(i) => {
@@ -276,17 +276,18 @@ pub async fn deaths(
             }
         })
         .filter(|d| year.is_none_or(|y| d.timestamp.year() == y))
-        .inspect(|d| {
-            let player = match players.iter_mut().find(|p| p.name == d.player) {
-                Some(p) => p,
-                None => {
-                    players.push(Player::new(d.player.clone()));
-                    players.last_mut().unwrap()
-                }
-            };
-            player.total_deaths += 1;
-        })
         .collect::<Vec<_>>();
+
+    for d in deaths.iter().rev() {
+        let player = match players.iter_mut().find(|p| p.name == d.player) {
+            Some(p) => p,
+            None => {
+                players.push(Player::new(d.player.clone()));
+                players.last_mut().unwrap()
+            }
+        };
+        player.total_deaths += 1;
+    }
 
     let deaths_over_time_map = deaths.iter().fold(HashMap::new(), |mut acc, d| {
         let (count, players): &mut (u64, Vec<String>) = acc.entry(d.timestamp.date()).or_default();
