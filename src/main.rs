@@ -64,15 +64,15 @@ async fn main() -> anyhow::Result<()> {
         .route("/deaths", get(deaths::deaths))
         .route("/mods", get(mods::get_mods))
         .route("/maps", get(maps))
-        .route("/super-secret-map/", get(Redirect::to("maps/overworld/")))
-        .route("/super-secret-map", get(Redirect::to("maps/overworld/")))
+        .route("/super-secret-map/", get(Redirect::to("/maps/overworld/")))
+        .route("/super-secret-map", get(Redirect::to("/maps/overworld/")))
         .route(
             "/super-secret-map-nether/",
-            get(Redirect::to("maps/nether/")),
+            get(Redirect::to("/maps/nether/")),
         )
         .route(
             "/super-secret-map-nether",
-            get(Redirect::to("maps/nether/")),
+            get(Redirect::to("/maps/nether/")),
         );
     let router = add_map_routes(
         router,
