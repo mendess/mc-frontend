@@ -100,6 +100,8 @@ pub async fn deaths(
         return Ok(Html(DeathsTemplate::default().render()?));
     }
 
+    let mut years = Vec::new();
+
     let mut players = Vec::<Player>::new();
     let mut deaths = raw_data
         .clone()
@@ -109,6 +111,12 @@ pub async fn deaths(
             timestamp: NaiveDateTime::parse_from_str(&date, "%d%b%Y %H:%M:%S%.f").unwrap(),
             player,
             cause,
+        })
+        .inspect(|d| match years.binary_search(&d.timestamp.year()) {
+            Ok(_) => {}
+            Err(i) => {
+                years.insert(i, d.timestamp.year());
+            }
         })
         .filter(|d| year.is_none_or(|y| d.timestamp.year() == y))
         .inspect(|d| {
@@ -197,13 +205,6 @@ pub async fn deaths(
             .cloned()
             .collect();
     }
-    let mut years = deaths
-        .iter()
-        .map(|d| d.timestamp.year())
-        .collect::<Vec<_>>();
-
-    years.sort();
-    years.dedup();
 
     Ok(Html(
         DeathsTemplate {
