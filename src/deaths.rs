@@ -239,10 +239,17 @@ impl Player {
     }
 }
 
+#[derive(Debug, Serialize)]
+struct Year {
+    number: i32,
+    enabled: bool,
+}
+
 #[derive(Debug, Template, Default)]
 #[template(path = "deaths/index.html")]
 struct DeathsTemplate {
-    years: Vec<i32>,
+    years: Vec<Year>,
+    no_year_enabled: bool,
     total_deaths: usize,
     players: Vec<Player>,
     unique_deaths: Chart,
@@ -264,15 +271,24 @@ pub async fn deaths(
         return Ok(Html(DeathsTemplate::default().render()?));
     }
 
-    let mut years = Vec::new();
+    let mut years = Vec::<Year>::new();
     let mut players = Vec::<Player>::new();
 
     let deaths = deaths
         .iter()
-        .inspect(|d| match years.binary_search(&d.timestamp.year()) {
-            Ok(_) => {}
-            Err(i) => {
-                years.insert(i, d.timestamp.year());
+        .inspect(|d| {
+            let d_year = d.timestamp.year();
+            match years.binary_search_by_key(&d_year, |y| y.number) {
+                Ok(_) => {}
+                Err(i) => {
+                    years.insert(
+                        i,
+                        Year {
+                            number: d_year,
+                            enabled: year.is_some_and(|y| y == d_year),
+                        },
+                    );
+                }
             }
         })
         .filter(|d| year.is_none_or(|y| d.timestamp.year() == y))
@@ -365,6 +381,7 @@ pub async fn deaths(
 
     Ok(Html(
         DeathsTemplate {
+            no_year_enabled: years.iter().all(|y| !y.enabled),
             years,
             total_deaths: deaths.len(),
             players,

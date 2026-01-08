@@ -37,6 +37,10 @@
         width: 100%; /* Ensure tabs span full width of the view */
         max-width: 1200px;
     }
+    a.tab-button {
+      text-decoration: none;
+      color: black;
+    }
     .tab-button {
         padding: 10px 20px;
         cursor: pointer;
@@ -129,10 +133,18 @@
 
     {% if years.len() > 1 %}
     <div class="tab-nav-years" id="year-tabs">
+      {%- if no_year_enabled %}
+      <a class="tab-button active" href="/deaths">All Time</a>
+      {%- else %}
       <a class="tab-button" href="/deaths">All Time</a>
-      {% for y in years %}
-      <a class="tab-button" href="/deaths?year={{y}}">{{y}}</a>
-      {% endfor %}
+      {%- endif %}
+      {%- for y in years %}
+      {%- if y.enabled %}
+      <a class="tab-button active" href="/deaths?year={{y.number}}">{{y.number}}</a>
+      {%- else %}
+      <a class="tab-button" href="/deaths?year={{y.number}}">{{y.number}}</a>
+      {%- endif %}
+      {%- endfor %}
     </div>
     {% endif %}
     <div class="tab-nav-players" id="player-tabs">
