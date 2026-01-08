@@ -63,13 +63,23 @@ async fn main() -> anyhow::Result<()> {
         .route("/", get(index))
         .route("/deaths", get(deaths::deaths))
         .route("/mods", get(mods::get_mods))
-        .route("/maps", get(maps));
+        .route("/maps", get(maps))
+        .route("/super-secret-map/", get(Redirect::to("maps/overworld/")))
+        .route("/super-secret-map", get(Redirect::to("maps/overworld/")))
+        .route(
+            "/super-secret-map-nether/",
+            get(Redirect::to("maps/nether/")),
+        )
+        .route(
+            "/super-secret-map-nether",
+            get(Redirect::to("maps/nether/")),
+        );
     let router = add_map_routes(
         router,
         &config,
         &[
-            ("/super-secret-map/", "overworld-day"),
-            ("/super-secret-map-nether/", "nether"),
+            ("/maps/overworld/", "overworld-day"),
+            ("/maps/nether/", "nether"),
             ("/super-secret-map-nether-mid/", "nether-mid"),
         ],
     );
