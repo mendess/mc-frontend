@@ -36,6 +36,7 @@ const IGNORED_TIMESTAMPS: &[&str] = &[
 ];
 
 const IGNORED_MESSAGES: &[&str] = &[
+    "has the following entity data",
     "joined the game",
     "left the game",
     "lost connection",
