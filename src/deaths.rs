@@ -105,23 +105,22 @@ pub async fn deaths(
         .clone()
         .into_iter()
         .rev()
-        .map(|(date, player, cause)| {
-            let player = match players.iter_mut().find(|p| p.name == player) {
+        .map(|(date, player, cause)| Deaths {
+            timestamp: NaiveDateTime::parse_from_str(&date, "%d%b%Y %H:%M:%S%.f").unwrap(),
+            player,
+            cause,
+        })
+        .filter(|d| year.is_none_or(|y| d.timestamp.year() == y))
+        .inspect(|d| {
+            let player = match players.iter_mut().find(|p| p.name == d.player) {
                 Some(p) => p,
                 None => {
-                    players.push(Player::new(player));
+                    players.push(Player::new(d.player.clone()));
                     players.last_mut().unwrap()
                 }
             };
             player.total_deaths += 1;
-            let date = NaiveDateTime::parse_from_str(&date, "%d%b%Y %H:%M:%S%.f").unwrap();
-            Deaths {
-                timestamp: date,
-                player: player.name.clone(),
-                cause,
-            }
         })
-        .filter(|d| year.is_none_or(|y| d.timestamp.year() == y))
         .collect::<Vec<_>>();
     deaths.sort_by_key(|d| d.timestamp);
 
