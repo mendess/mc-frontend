@@ -18,6 +18,7 @@ use std::{
 };
 use tokio_stream::wrappers::ReadDirStream;
 use tower_http::services::ServeDir;
+use tracing_subscriber::{EnvFilter, fmt, layer::SubscriberExt as _, util::SubscriberInitExt as _};
 
 #[derive(Deserialize)]
 struct Config {
@@ -50,9 +51,17 @@ fn add_map_routes(
     router
 }
 
+fn init_tracing() {
+    tracing_subscriber::registry()
+        .with(EnvFilter::from_default_env())
+        .with(fmt::layer().pretty())
+        .init();
+}
+
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     let config = get_configuration()?;
+    init_tracing();
     let router = Router::new()
         .route("/", get(index))
         .route("/deaths", get(deaths::deaths))

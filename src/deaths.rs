@@ -5,15 +5,180 @@ use axum::{
     response::{Html, IntoResponse},
 };
 use chrono::{Datelike, Days, NaiveDateTime};
+use flate2::read::GzDecoder;
+use futures::{StreamExt, stream::FuturesOrdered};
+use glob::glob;
 use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, fs::File, sync::Arc};
+use std::{
+    collections::HashMap,
+    fs::File,
+    sync::{Arc, LazyLock},
+};
+use std::{
+    io::{self, Read},
+    path::PathBuf,
+};
+use tokio::sync::Mutex;
 
-#[derive(Debug, Serialize, Deserialize)]
-struct Deaths {
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DeathRecord {
     #[serde(skip)]
-    timestamp: NaiveDateTime,
-    player: String,
-    cause: String,
+    pub timestamp: NaiveDateTime,
+    pub player: String,
+    pub cause: String,
+}
+
+// Constants equivalent to your Python configuration
+const IGNORED_TIMESTAMPS: &[&str] = &[
+    "06Jun2025 15:42:05.682",
+    "08Jun2025 18:40:17.329",
+    "05Jan2026 01:49:16.370",
+];
+
+const IGNORED_MESSAGES: &[&str] = &[
+    "joined the game",
+    "left the game",
+    "lost connection",
+    "has made the advancement",
+    "has reached the goal",
+    "has completed the challenge",
+    "[Server]",
+    "<",
+    "moved too quickly!",
+    "moved wrongly!",
+    "logged in with entity id",
+    "UUID of player",
+    "displaying particle",
+    "issued server command",
+    "teleported to",
+];
+
+/// Checks if the message content contains any of the ignored patterns
+fn is_ignored_message(content: &str) -> bool {
+    IGNORED_MESSAGES.iter().any(|&msg| content.contains(msg))
+}
+
+#[derive(Debug, Deserialize, Clone)]
+struct WhitelistEntry {
+    name: String,
+}
+
+#[tracing::instrument(skip_all)]
+fn parse_log(log: &str, whitelist: &[WhitelistEntry]) -> Vec<DeathRecord> {
+    let mut death_records = Vec::new();
+    for line in log.lines() {
+        // Split by the standard Minecraft log separator "]: "
+        let parts: Vec<&str> = line.splitn(2, "]: ").collect();
+        if parts.len() == 2 {
+            let meta_info = parts[0];
+            let content = parts[1];
+
+            // Extract Timestamp
+            let timestamp_parts: Vec<&str> = meta_info.split_whitespace().collect();
+            let timestamp = if timestamp_parts.len() >= 2 {
+                format!("{} {}", timestamp_parts[0], timestamp_parts[1]).replace(['[', ']'], "")
+            } else {
+                "unknown".to_string()
+            };
+
+            if IGNORED_TIMESTAMPS.contains(&timestamp.as_str()) {
+                continue;
+            }
+            let timestamp = match NaiveDateTime::parse_from_str(&timestamp, "%d%b%Y %H:%M:%S%.f") {
+                Ok(d) => d,
+                Err(e) => {
+                    tracing::error!(error = ?e, timestamp, "failed to parse log timestamp");
+                    continue;
+                }
+            };
+
+            // Check against known players
+            for WhitelistEntry { name } in whitelist {
+                let player_prefix = format!("{name} ");
+                if content.starts_with(&player_prefix) && !is_ignored_message(content) {
+                    let cause = content[name.len()..].trim().to_string();
+                    death_records.push(DeathRecord {
+                        timestamp,
+                        player: name.clone(),
+                        cause,
+                    });
+                    break;
+                }
+            }
+        }
+    }
+    death_records
+}
+
+/// The main parsing function
+pub async fn parse_logs(config: &Config) -> Result<Vec<DeathRecord>, Error> {
+    static LOG_CACHE: LazyLock<Mutex<HashMap<PathBuf, Vec<DeathRecord>>>> =
+        LazyLock::new(Default::default);
+
+    let whitelist_path = config.server_dir.join("whitelist.json");
+    tracing::debug!(?whitelist_path, "opening whitelist");
+    let whitelist: Vec<WhitelistEntry> = serde_json::from_reader(File::open(whitelist_path)?)?;
+
+    let mut death_records: Vec<DeathRecord> = Vec::new();
+
+    let logs_dir = config.server_dir.join("logs");
+    tracing::debug!(?logs_dir, "globing logs");
+
+    // Collect and sort files similar to glob.glob() + sort()
+    let mut files: Vec<std::path::PathBuf> = glob(&format!("{}/*.gz", logs_dir.display()))
+        .map_err(io::Error::other)?
+        .collect::<Result<_, _>>()
+        .map_err(io::Error::other)?;
+    files.sort();
+    let mut death_record_futures = files
+        .into_iter()
+        .filter(|p| !p.to_string_lossy().contains("debug"))
+        .map(|file_path| async {
+            if let Some(cached) = LOG_CACHE.lock().await.get(&file_path) {
+                return cached.clone();
+            };
+
+            let whitelist = whitelist.clone();
+            let (file_path, records) = tokio::task::spawn_blocking(move || {
+                tracing::error_span!("parse log", ?file_path).in_scope(|| {
+                    tracing::debug!("reading log");
+                    let file = match File::open(&file_path) {
+                        Ok(f) => f,
+                        Err(e) => {
+                            tracing::error!(?file_path, error = ?e, "failed to read log");
+                            return (file_path, vec![]);
+                        }
+                    };
+                    let mut gz = GzDecoder::new(file);
+                    let mut contents = String::new();
+
+                    // Decompress and read to string (handles UTF-8)
+                    if gz.read_to_string(&mut contents).is_ok() {
+                        (file_path, parse_log(&contents, &whitelist))
+                    } else {
+                        (file_path, vec![])
+                    }
+                })
+            })
+            .await
+            .unwrap();
+            LOG_CACHE.lock().await.insert(file_path, records.clone());
+            records
+        })
+        .collect::<FuturesOrdered<_>>();
+
+    while let Some(deaths) = death_record_futures.next().await {
+        death_records.extend(deaths)
+    }
+
+    let latest_log_path = logs_dir.join("latest.log");
+    tracing::debug!(?latest_log_path, "reading log");
+    death_records.extend(parse_log(
+        &std::fs::read_to_string(latest_log_path)?,
+        &whitelist,
+    ));
+
+    Ok(death_records)
 }
 
 #[derive(Debug, Serialize, Deserialize, Default)]
@@ -92,26 +257,17 @@ pub async fn deaths(
     config: State<Arc<Config>>,
     Query(DeathQuery { year }): Query<DeathQuery>,
 ) -> Result<impl IntoResponse, Error> {
-    let raw_data = serde_json::from_reader::<_, Vec<(String, String, String)>>(File::open(
-        config.backups_dir.join("deaths.json"),
-    )?)?;
+    let deaths = parse_logs(&config).await?;
 
-    if raw_data.is_empty() {
+    if deaths.is_empty() {
         return Ok(Html(DeathsTemplate::default().render()?));
     }
 
     let mut years = Vec::new();
-
     let mut players = Vec::<Player>::new();
-    let mut deaths = raw_data
-        .clone()
-        .into_iter()
+    let deaths = deaths
+        .iter()
         .rev()
-        .map(|(date, player, cause)| Deaths {
-            timestamp: NaiveDateTime::parse_from_str(&date, "%d%b%Y %H:%M:%S%.f").unwrap(),
-            player,
-            cause,
-        })
         .inspect(|d| match years.binary_search(&d.timestamp.year()) {
             Ok(_) => {}
             Err(i) => {
@@ -130,7 +286,6 @@ pub async fn deaths(
             player.total_deaths += 1;
         })
         .collect::<Vec<_>>();
-    deaths.sort_by_key(|d| d.timestamp);
 
     let deaths_over_time_map = deaths.iter().fold(HashMap::new(), |mut acc, d| {
         let (count, players): &mut (u64, Vec<String>) = acc.entry(d.timestamp.date()).or_default();
