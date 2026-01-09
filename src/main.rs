@@ -15,6 +15,7 @@ use std::{
     sync::Arc,
 };
 use tower_http::services::ServeDir;
+use tracing::level_filters::LevelFilter;
 use tracing_subscriber::{EnvFilter, fmt, layer::SubscriberExt as _, util::SubscriberInitExt as _};
 
 #[derive(Deserialize)]
@@ -50,7 +51,11 @@ fn add_map_routes(
 
 fn init_tracing() {
     tracing_subscriber::registry()
-        .with(EnvFilter::from_default_env())
+        .with(
+            EnvFilter::builder()
+                .with_default_directive(LevelFilter::INFO.into())
+                .from_env_lossy(),
+        )
         .with(fmt::layer().pretty())
         .init();
 }

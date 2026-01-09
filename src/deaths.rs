@@ -66,6 +66,7 @@ struct WhitelistEntry {
 
 #[tracing::instrument(skip_all)]
 fn parse_log(log: &str, whitelist: &[WhitelistEntry]) -> Vec<DeathRecord> {
+    tracing::info!("parsing log");
     let mut death_records = Vec::new();
     for line in log.lines() {
         // Split by the standard Minecraft log separator "]: "
@@ -140,31 +141,36 @@ pub async fn parse_logs(config: &Config) -> Result<Vec<DeathRecord>, Error> {
             };
 
             let whitelist = whitelist.clone();
-            let (file_path, records) = tokio::task::spawn_blocking(move || {
-                tracing::error_span!("parse log", ?file_path).in_scope(|| {
-                    tracing::debug!("reading log");
+            let read_result = tokio::task::spawn_blocking(move || {
+                tracing::error_span!("LOG PARSING", ?file_path).in_scope(|| {
                     let file = match File::open(&file_path) {
                         Ok(f) => f,
                         Err(e) => {
                             tracing::error!(?file_path, error = ?e, "failed to read log");
-                            return (file_path, vec![]);
+                            return None;
                         }
                     };
                     let mut gz = GzDecoder::new(file);
                     let mut contents = String::new();
 
                     // Decompress and read to string (handles UTF-8)
-                    if gz.read_to_string(&mut contents).is_ok() {
-                        (file_path, parse_log(&contents, &whitelist))
-                    } else {
-                        (file_path, vec![])
+                    match gz.read_to_string(&mut contents) {
+                        Ok(_) => Some((file_path, parse_log(&contents, &whitelist))),
+                        Err(e) => {
+                            tracing::error!(error = ?e, "failed to parse log");
+                            None
+                        }
                     }
                 })
             })
             .await
             .unwrap();
-            LOG_CACHE.lock().await.insert(file_path, records.clone());
-            records
+            if let Some((file_path, records)) = read_result {
+                LOG_CACHE.lock().await.insert(file_path, records.clone());
+                records
+            } else {
+                vec![]
+            }
         })
         .collect::<FuturesOrdered<_>>();
 
