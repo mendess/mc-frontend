@@ -1,4 +1,5 @@
 mod deaths;
+mod logs;
 mod mods;
 
 use askama::Template;

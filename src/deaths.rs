@@ -1,38 +1,35 @@
-use crate::{Config, Error};
+use crate::{Config, Error, logs};
 use askama::Template;
 use axum::{
     extract::{Query, State},
     response::{Html, IntoResponse},
 };
-use chrono::{Datelike, Days, NaiveDateTime};
-use flate2::read::GzDecoder;
-use futures::{StreamExt, stream::FuturesOrdered};
-use glob::glob;
+use chrono::{Datelike, Days, NaiveDate, NaiveDateTime, NaiveTime};
+use futures::StreamExt;
 use serde::{Deserialize, Serialize};
-use std::{
-    collections::HashMap,
-    fs::File,
-    sync::{Arc, LazyLock},
-};
-use std::{
-    io::{self, Read},
-    path::PathBuf,
-};
-use tokio::sync::Mutex;
+use std::{collections::HashMap, future::ready, sync::Arc};
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct DeathRecord {
-    #[serde(skip)]
-    pub timestamp: NaiveDateTime,
-    pub player: String,
-    pub cause: String,
+macro_rules! ts {
+    ($d:literal Jan $y:literal $h:literal : $mm:literal : $s:literal : $ms:literal) => {
+        ts!($d 1 $y $h : $mm : $s : $ms)
+    };
+    ($d:literal Jun $y:literal $h:literal : $mm:literal : $s:literal : $ms:literal) => {
+        ts!($d 6 $y $h : $mm : $s : $ms)
+    };
+    ($d:literal $m:literal $y:literal $h:literal : $mm:literal : $s:literal : $ms:literal) => {
+        #[allow(clippy::zero_prefixed_literal)]
+        NaiveDateTime::new(
+            NaiveDate::from_ymd_opt($y, $m, $d).unwrap(),
+            NaiveTime::from_hms_milli_opt($h, $mm, $s, $ms).unwrap(),
+        )
+    };
 }
 
 // Constants equivalent to your Python configuration
-const IGNORED_TIMESTAMPS: &[&str] = &[
-    "06Jun2025 15:42:05.682",
-    "08Jun2025 18:40:17.329",
-    "05Jan2026 01:49:16.370",
+const IGNORED_TIMESTAMPS: &[NaiveDateTime] = &[
+    ts!(6 Jun 2025 15:42:08:682),
+    ts!(8 Jun 2025 18:40:17:329),
+    ts!(5 Jan 2026 01:49:16:370),
 ];
 
 const IGNORED_MESSAGES: &[&str] = &[
@@ -53,140 +50,6 @@ const IGNORED_MESSAGES: &[&str] = &[
     "issued server command",
     "teleported to",
 ];
-
-/// Checks if the message content contains any of the ignored patterns
-fn is_ignored_message(content: &str) -> bool {
-    IGNORED_MESSAGES.iter().any(|&msg| content.contains(msg))
-}
-
-#[derive(Debug, Deserialize, Clone)]
-struct WhitelistEntry {
-    name: String,
-}
-
-#[tracing::instrument(skip_all)]
-fn parse_log(log: &str, whitelist: &[WhitelistEntry]) -> Vec<DeathRecord> {
-    tracing::info!("parsing log");
-    let mut death_records = Vec::new();
-    for line in log.lines() {
-        // Split by the standard Minecraft log separator "]: "
-        let parts: Vec<&str> = line.splitn(2, "]: ").collect();
-        if parts.len() == 2 {
-            let meta_info = parts[0];
-            let content = parts[1];
-
-            // Extract Timestamp
-            let timestamp_parts: Vec<&str> = meta_info.split_whitespace().collect();
-            let timestamp = if timestamp_parts.len() >= 2 {
-                format!("{} {}", timestamp_parts[0], timestamp_parts[1]).replace(['[', ']'], "")
-            } else {
-                "unknown".to_string()
-            };
-
-            if IGNORED_TIMESTAMPS.contains(&timestamp.as_str()) {
-                continue;
-            }
-            let timestamp = match NaiveDateTime::parse_from_str(&timestamp, "%d%b%Y %H:%M:%S%.f") {
-                Ok(d) => d,
-                Err(e) => {
-                    tracing::error!(error = ?e, timestamp, "failed to parse log timestamp");
-                    continue;
-                }
-            };
-
-            // Check against known players
-            for WhitelistEntry { name } in whitelist {
-                let player_prefix = format!("{name} ");
-                if content.starts_with(&player_prefix) && !is_ignored_message(content) {
-                    let cause = content[name.len()..].trim().to_string();
-                    death_records.push(DeathRecord {
-                        timestamp,
-                        player: name.clone(),
-                        cause,
-                    });
-                    break;
-                }
-            }
-        }
-    }
-    death_records
-}
-
-/// The main parsing function
-pub async fn parse_logs(config: &Config) -> Result<Vec<DeathRecord>, Error> {
-    static LOG_CACHE: LazyLock<Mutex<HashMap<PathBuf, Vec<DeathRecord>>>> =
-        LazyLock::new(Default::default);
-
-    let whitelist_path = config.server_dir.join("whitelist.json");
-    tracing::debug!(?whitelist_path, "opening whitelist");
-    let whitelist: Vec<WhitelistEntry> = serde_json::from_reader(File::open(whitelist_path)?)?;
-
-    let mut death_records: Vec<DeathRecord> = Vec::new();
-
-    let logs_dir = config.server_dir.join("logs");
-    tracing::debug!(?logs_dir, "globing logs");
-
-    // Collect and sort files similar to glob.glob() + sort()
-    let mut files: Vec<std::path::PathBuf> = glob(&format!("{}/*.gz", logs_dir.display()))
-        .map_err(io::Error::other)?
-        .collect::<Result<_, _>>()
-        .map_err(io::Error::other)?;
-    files.sort();
-    let mut death_record_futures = files
-        .into_iter()
-        .filter(|p| !p.to_string_lossy().contains("debug"))
-        .map(|file_path| async {
-            if let Some(cached) = LOG_CACHE.lock().await.get(&file_path) {
-                return cached.clone();
-            };
-
-            let whitelist = whitelist.clone();
-            let read_result = tokio::task::spawn_blocking(move || {
-                tracing::error_span!("LOG PARSING", ?file_path).in_scope(|| {
-                    let file = match File::open(&file_path) {
-                        Ok(f) => f,
-                        Err(e) => {
-                            tracing::error!(?file_path, error = ?e, "failed to read log");
-                            return None;
-                        }
-                    };
-                    let mut gz = GzDecoder::new(file);
-                    let mut contents = String::new();
-
-                    // Decompress and read to string (handles UTF-8)
-                    match gz.read_to_string(&mut contents) {
-                        Ok(_) => Some((file_path, parse_log(&contents, &whitelist))),
-                        Err(e) => {
-                            tracing::error!(error = ?e, "failed to parse log");
-                            None
-                        }
-                    }
-                })
-            })
-            .await
-            .unwrap();
-            if let Some((file_path, records)) = read_result {
-                LOG_CACHE.lock().await.insert(file_path, records.clone());
-                records
-            } else {
-                vec![]
-            }
-        })
-        .collect::<FuturesOrdered<_>>();
-
-    while let Some(deaths) = death_record_futures.next().await {
-        death_records.extend(deaths)
-    }
-
-    let latest_log_path = logs_dir.join("latest.log");
-    tracing::debug!(?latest_log_path, "reading log");
-    death_records.extend(parse_log(
-        &std::fs::read_to_string(latest_log_path)?,
-        &whitelist,
-    ));
-
-    Ok(death_records)
-}
 
 #[derive(Debug, Serialize, Deserialize, Default)]
 struct Chart {
@@ -271,7 +134,18 @@ pub async fn deaths(
     config: State<Arc<Config>>,
     Query(DeathQuery { year }): Query<DeathQuery>,
 ) -> Result<impl IntoResponse, Error> {
-    let deaths = parse_logs(&config).await?;
+    let deaths = logs::parse_logs(&config)
+        .await?
+        .filter(|line| {
+            ready(
+                IGNORED_MESSAGES
+                    .iter()
+                    .any(|&msg| line.message.contains(msg)),
+            )
+        })
+        .filter(|line| ready(IGNORED_TIMESTAMPS.contains(&line.timestamp)))
+        .collect::<Vec<_>>()
+        .await;
 
     if deaths.is_empty() {
         return Ok(Html(DeathsTemplate::default().render()?));
@@ -361,13 +235,13 @@ pub async fn deaths(
         Chart::new(unique_deaths)
     }
 
-    let unique_deaths = death_pie_chart(deaths.iter().map(|d| &d.cause));
+    let unique_deaths = death_pie_chart(deaths.iter().map(|d| &d.message));
     for p in &mut players {
         p.unique_deaths = death_pie_chart(
             deaths
                 .iter()
                 .filter(|d| d.player == p.name)
-                .map(|d| &d.cause),
+                .map(|d| &d.message),
         );
     }
     for p in &mut players {
@@ -378,7 +252,7 @@ pub async fn deaths(
             .filter(|pd| {
                 deaths
                     .iter()
-                    .filter(|d| d.cause == **pd)
+                    .filter(|d| d.message == **pd)
                     .all(|d| d.player == p.name)
             })
             .cloned()
