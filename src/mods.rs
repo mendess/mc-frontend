@@ -32,25 +32,33 @@ pub async fn get_mods(config: State<Arc<Config>>) -> Result<impl IntoResponse, E
         .try_collect::<Vec<_>>()
         .await?;
 
-    const SERVER_ONLY_MODS: &[&str] = &["Prometheus-Exporter", "servercore"];
+    const SERVER_ONLY_MODS: &[&str] = &[
+        "Prometheus-Exporter",
+        "servercore",
+        "lithium-neoforge",
+        "modernfix-neoforge",
+        "ferritecore",
+    ];
 
     const MANDATORY_MODS: &[&str] = &["create", "copycats", "simple-voice-chat"];
 
     static CLIENT_SIDE_MODS: LazyLock<Vec<Mod>> = LazyLock::new(|| {
-        vec![
-            Mod {
-                name: "mouse-tweaks".into(),
-                version: "any".into(),
-            },
-            Mod {
-                name: "sodium".into(),
-                version: "any".into(),
-            },
-            Mod {
-                name: "lithium".into(),
-                version: "any".into(),
-            },
+        [
+            "sodium",
+            "ferritecore",
+            "entityculling",
+            "lithium",
+            "immediatelyfast",
+            "sodium-extra",
+            "dynamic-fps",
+            "modernfix",
+            "mouse-tweaks",
         ]
+        .map(|name| Mod {
+            name: name.into(),
+            version: "any".into(),
+        })
+        .to_vec()
     });
 
     let mut mods = mods_dir
@@ -69,7 +77,7 @@ pub async fn get_mods(config: State<Arc<Config>>) -> Result<impl IntoResponse, E
                 name: match name.as_str() {
                     "voicechat-neoforge" => "simple-voice-chat",
                     "no-chat-reports-NeoForge" => "no-chat-reports",
-                    n => n,
+                    n => n.trim_end_matches("-neoforge"),
                 }
                 .to_owned(),
                 version: version.as_str().to_owned(),
