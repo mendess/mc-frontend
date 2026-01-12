@@ -52,6 +52,42 @@
             text-align: start;
             padding-left: 5em;
         }
+        .modpack-dl {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        .modpack-dl-button {
+            background-color: DodgerBlue;
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .modpack-dl-button:hover {
+            background-color: RoyalBlue;
+        }
+
+        .modpack-dl-url {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: auto;
+            padding-left: 2em;
+            padding-right: 2em;
+            background-color: #dddddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .modpack-dl-url-copy-button {
+            height: 2em;
+            margin-right: 1em;
+        }
 
     </style>
 </head>
@@ -99,7 +135,30 @@
           </tr>
           {% endfor %}
         </table>
+        <hr width="50%">
+        <div class="modpack-dl">
+          <div class="modpack-dl-url">
+            <button
+              class="modpack-dl-url-copy-button"
+              onclick="copyText()"
+              id="modpack-dl-url-copy-button">📋</button>
+            <p id="modpack-dl-url">https://minecraft.mendess.xyz/mods/large-biomes.mrpack</p>
+          </div>
+          <a class="modpack-dl-button" href="/mods/large-biomes.mrpack">Download Modpack</a>
+        </div>
     </main>
-
 </body>
+<script>
+  async function copyText() {
+    const p = document.getElementById("modpack-dl-url");
+    try {
+      await navigator.clipboard.writeText(p.textContent);
+      const copy_button = document.getElementById("modpack-dl-url-copy-button");
+      copy_button.innerText = "✅"
+      setTimeout(() => { copy_button.innerText = "📋"; }, 1500);
+    } catch (err) {
+      alert("failed to copy" + err);
+    }
+  }
+</script>
 </html>

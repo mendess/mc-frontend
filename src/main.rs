@@ -69,6 +69,7 @@ async fn main() -> anyhow::Result<()> {
         .route("/", get(index))
         .route("/deaths", get(deaths::deaths))
         .route("/mods", get(mods::get_mods))
+        .route("/mods/large-biomes.mrpack", get(mods::generate_mod_pack))
         .route("/maps", get(maps))
         .route("/super-secret-map/", get(Redirect::to("/maps/overworld/")))
         .route("/super-secret-map", get(Redirect::to("/maps/overworld/")))
