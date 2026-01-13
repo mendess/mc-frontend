@@ -15,7 +15,7 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use tower_http::services::ServeDir;
+use tower_http::services::{ServeDir, ServeFile};
 use tracing::level_filters::LevelFilter;
 use tracing_subscriber::{EnvFilter, fmt, layer::SubscriberExt as _, util::SubscriberInitExt as _};
 
@@ -67,6 +67,7 @@ async fn main() -> anyhow::Result<()> {
     init_tracing();
     let router = Router::new()
         .route("/", get(index))
+        .nest_service("/favicon.ico", ServeFile::new("./assets/favicon.ico"))
         .route("/deaths", get(deaths::deaths))
         .route("/mods", get(mods::get_mods))
         .route("/mods/large-biomes.mrpack", get(mods::generate_mod_pack))
