@@ -25,9 +25,8 @@ macro_rules! ts {
     };
 }
 
-// Constants equivalent to your Python configuration
 const IGNORED_TIMESTAMPS: &[NaiveDateTime] = &[
-    ts!(6 Jun 2025 15:42:08:682),
+    ts!(6 Jun 2025 15:42:05:682),
     ts!(8 Jun 2025 18:40:17:329),
     ts!(5 Jan 2026 01:49:16:370),
 ];
@@ -138,12 +137,17 @@ pub async fn deaths(
         .await?
         .filter(|line| {
             ready(
-                IGNORED_MESSAGES
+                !IGNORED_MESSAGES
                     .iter()
                     .any(|&msg| line.message.contains(msg)),
             )
         })
-        .filter(|line| ready(IGNORED_TIMESTAMPS.contains(&line.timestamp)))
+        .inspect(|l| {
+            if l.message.contains("Husk") {
+                println!("{l:?}")
+            }
+        })
+        .filter(|line| ready(!IGNORED_TIMESTAMPS.contains(&line.timestamp)))
         .collect::<Vec<_>>()
         .await;
 
