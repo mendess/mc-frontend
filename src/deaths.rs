@@ -142,11 +142,6 @@ pub async fn deaths(
                     .any(|&msg| line.message.contains(msg)),
             )
         })
-        .inspect(|l| {
-            if l.message.contains("Husk") {
-                println!("{l:?}")
-            }
-        })
         .filter(|line| ready(!IGNORED_TIMESTAMPS.contains(&line.timestamp)))
         .collect::<Vec<_>>()
         .await;

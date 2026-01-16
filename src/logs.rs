@@ -87,6 +87,7 @@ pub async fn parse_logs(config: &Config) -> Result<impl Stream<Item = LogLine>, 
         .collect::<Result<_, _>>()
         .map_err(io::Error::other)?;
     files.sort();
+    files.pop(); // this one is the same as lattest.log so we don't want to cache it
     let death_record_futures = {
         let whitelist = whitelist.clone();
         futures::stream::iter(files)
