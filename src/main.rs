@@ -87,6 +87,7 @@ async fn main() -> anyhow::Result<()> {
         &config,
         &[
             ("/maps/overworld/", "overworld-day"),
+            ("/maps/overworld/night/", "overworld-night"),
             ("/maps/nether/", "nether"),
             ("/super-secret-map-nether-mid/", "nether-mid"),
         ],
