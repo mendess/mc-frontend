@@ -1,0 +1,1669 @@
+[
+  {
+    "name": "Acid Splash",
+    "url": "https://bg3.wiki/wiki/Acid_Splash",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/9/99/Acid_Splash_Icon.webp/40px-Acid_Splash_Icon.webp",
+    "range": 18.0,
+    "aoe": 2.0,
+    "damage": "1~6",
+    "damage_type": "Acid"
+  },
+  {
+    "name": "Blade Ward",
+    "url": "https://bg3.wiki/wiki/Blade_Ward",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/0/04/Blade_Ward_Icon.webp/40px-Blade_Ward_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Bone Chill",
+    "url": "https://bg3.wiki/wiki/Bone_Chill",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/0/03/Bone_Chill_Icon.webp/40px-Bone_Chill_Icon.webp",
+    "range": 18.0,
+    "damage": "1~8",
+    "damage_type": "Necrotic"
+  },
+  {
+    "name": "Booming Blade",
+    "url": "https://bg3.wiki/wiki/Booming_Blade",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/f/fd/Booming_Blade_Icon.webp/40px-Booming_Blade_Icon.webp",
+    "range": 0,
+    "damage": "1~8",
+    "damage_type": "Thunder"
+  },
+  {
+    "name": "Bursting Sinew",
+    "url": "https://bg3.wiki/wiki/Bursting_Sinew",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/0/0f/Bursting_Sinew_Icon.webp/40px-Bursting_Sinew_Icon.webp",
+    "range": 18.0,
+    "aoe": 3.0,
+    "damage": "1~10",
+    "damage_type": "Piercing"
+  },
+  {
+    "name": "Dancing Lights",
+    "url": "https://bg3.wiki/wiki/Dancing_Lights",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/b/ba/Dancing_Lights_Icon.webp/40px-Dancing_Lights_Icon.webp",
+    "range": 18.0,
+    "aoe": 9.0
+  },
+  {
+    "name": "Eldritch Blast",
+    "url": "https://bg3.wiki/wiki/Eldritch_Blast",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/db/Eldritch_Blast_Icon.webp/40px-Eldritch_Blast_Icon.webp",
+    "range": 18.0,
+    "damage": "1~10",
+    "damage_type": "Force"
+  },
+  {
+    "name": "Fire Bolt",
+    "url": "https://bg3.wiki/wiki/Fire_Bolt",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/2/23/Fire_Bolt_Icon.webp/40px-Fire_Bolt_Icon.webp",
+    "range": 18.0,
+    "damage": "1~10",
+    "damage_type": "Fire"
+  },
+  {
+    "name": "Friends",
+    "url": "https://bg3.wiki/wiki/Friends",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/75/Friends_Icon.webp/40px-Friends_Icon.webp",
+    "range": 9.0
+  },
+  {
+    "name": "Guidance",
+    "url": "https://bg3.wiki/wiki/Guidance",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/7f/Guidance_Icon.webp/40px-Guidance_Icon.webp"
+  },
+  {
+    "name": "Light",
+    "url": "https://bg3.wiki/wiki/Light",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/5/5c/Light_Icon.webp/40px-Light_Icon.webp"
+  },
+  {
+    "name": "Mage Hand",
+    "url": "https://bg3.wiki/wiki/Mage_Hand",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/f/f9/Mage_Hand_Icon.webp/40px-Mage_Hand_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Minor Illusion",
+    "url": "https://bg3.wiki/wiki/Minor_Illusion",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/9/9d/Minor_Illusion_Icon.webp/40px-Minor_Illusion_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Poison Spray",
+    "url": "https://bg3.wiki/wiki/Poison_Spray",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/1/1d/Poison_Spray_Icon.webp/40px-Poison_Spray_Icon.webp",
+    "range": 3.0,
+    "damage": "1~12",
+    "damage_type": "Poison"
+  },
+  {
+    "name": "Produce Flame",
+    "url": "https://bg3.wiki/wiki/Produce_Flame",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/e/ec/Produce_Flame_Icon.webp/40px-Produce_Flame_Icon.webp",
+    "range": 0,
+    "damage": "1~8",
+    "damage_type": "Fire"
+  },
+  {
+    "name": "Ray of Frost",
+    "url": "https://bg3.wiki/wiki/Ray_of_Frost",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/f/f9/Ray_of_Frost_Icon.webp/40px-Ray_of_Frost_Icon.webp",
+    "range": 18.0,
+    "damage": "1~8",
+    "damage_type": "Cold"
+  },
+  {
+    "name": "Resistance",
+    "url": "https://bg3.wiki/wiki/Resistance_(Cantrip)",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/a/a1/Resistance_Cantrip_Icon.webp/40px-Resistance_Cantrip_Icon.webp"
+  },
+  {
+    "name": "Sacred Flame",
+    "url": "https://bg3.wiki/wiki/Sacred_Flame",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/1/16/Sacred_Flame_Icon.webp/40px-Sacred_Flame_Icon.webp",
+    "range": 18.0,
+    "damage": "1~8",
+    "damage_type": "Radiant"
+  },
+  {
+    "name": "Shillelagh",
+    "url": "https://bg3.wiki/wiki/Shillelagh",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/68/Shillelagh_Icon.webp/40px-Shillelagh_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Shocking Grasp",
+    "url": "https://bg3.wiki/wiki/Shocking_Grasp",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/2/2f/Shocking_Grasp_Icon.webp/40px-Shocking_Grasp_Icon.webp",
+    "damage": "1~8",
+    "damage_type": "Lightning"
+  },
+  {
+    "name": "Thaumaturgy",
+    "url": "https://bg3.wiki/wiki/Thaumaturgy",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/3/3f/Thaumaturgy_Icon.webp/40px-Thaumaturgy_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Thorn Whip",
+    "url": "https://bg3.wiki/wiki/Thorn_Whip",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/e/e8/Thorn_Whip_Icon.webp/40px-Thorn_Whip_Icon.webp",
+    "range": 9.0,
+    "damage": "1~6",
+    "damage_type": "Piercing"
+  },
+  {
+    "name": "Toll the Dead",
+    "url": "https://bg3.wiki/wiki/Toll_the_Dead",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/c0/Toll_the_Dead_Icon.webp/40px-Toll_the_Dead_Icon.webp",
+    "range": 18.0,
+    "damage": "1~12",
+    "damage_type": "Necrotic"
+  },
+  {
+    "name": "True Strike",
+    "url": "https://bg3.wiki/wiki/True_Strike",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/4/47/True_Strike_Icon.webp/40px-True_Strike_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Vicious Mockery",
+    "url": "https://bg3.wiki/wiki/Vicious_Mockery",
+    "level": 0,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/66/Vicious_Mockery_Icon.webp/40px-Vicious_Mockery_Icon.webp",
+    "range": 18.0,
+    "damage": "1~4",
+    "damage_type": "Psychic"
+  },
+  {
+    "name": "Animal Friendship",
+    "url": "https://bg3.wiki/wiki/Animal_Friendship",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/3/36/Animal_Friendship_Icon.webp/40px-Animal_Friendship_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Armour of Agathys",
+    "url": "https://bg3.wiki/wiki/Armour_of_Agathys",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/77/Armour_of_Agathys_Icon.webp/40px-Armour_of_Agathys_Icon.webp",
+    "range": 0,
+    "damage": "5",
+    "damage_type": "Cold"
+  },
+  {
+    "name": "Arms of Hadar",
+    "url": "https://bg3.wiki/wiki/Arms_of_Hadar",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/3/3e/Arms_of_Hadar_Icon.webp/40px-Arms_of_Hadar_Icon.webp",
+    "range": 0,
+    "aoe": 3.0,
+    "damage": "2~12",
+    "damage_type": "Necrotic"
+  },
+  {
+    "name": "Bane",
+    "url": "https://bg3.wiki/wiki/Bane_(spell)",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/1/19/Bane_spell_Icon.webp/40px-Bane_spell_Icon.webp",
+    "range": 9.0
+  },
+  {
+    "name": "Bless",
+    "url": "https://bg3.wiki/wiki/Bless",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/c4/Bless_Icon.webp/40px-Bless_Icon.webp",
+    "range": 9.0
+  },
+  {
+    "name": "Burning Hands",
+    "url": "https://bg3.wiki/wiki/Burning_Hands",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/cf/Burning_Hands_Icon.webp/40px-Burning_Hands_Icon.webp",
+    "range": 0,
+    "aoe": 5.0,
+    "damage": "3~18",
+    "damage_type": "Fire"
+  },
+  {
+    "name": "Charm Person",
+    "url": "https://bg3.wiki/wiki/Charm_Person",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/b/bc/Charm_Person_Icon.webp/40px-Charm_Person_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Chromatic Orb",
+    "url": "https://bg3.wiki/wiki/Chromatic_Orb",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/8e/Chromatic_Orb_Icon.webp/40px-Chromatic_Orb_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Colour Spray",
+    "url": "https://bg3.wiki/wiki/Colour_Spray",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/2/24/Colour_Spray_Icon.webp/40px-Colour_Spray_Icon.webp",
+    "range": 0,
+    "aoe": 5.0
+  },
+  {
+    "name": "Command",
+    "url": "https://bg3.wiki/wiki/Command",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/7f/Command_Halt_Icon.webp/40px-Command_Halt_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Compelled Duel",
+    "url": "https://bg3.wiki/wiki/Compelled_Duel",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/73/Compelled_Duel_Icon.webp/40px-Compelled_Duel_Icon.webp",
+    "range": 9.0
+  },
+  {
+    "name": "Create or Destroy Water",
+    "url": "https://bg3.wiki/wiki/Create_or_Destroy_Water",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/d1/Create_Water_Icon.webp/40px-Create_Water_Icon.webp",
+    "range": 9.0,
+    "aoe": 4.0
+  },
+  {
+    "name": "Cure Wounds",
+    "url": "https://bg3.wiki/wiki/Cure_Wounds",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/4/40/Cure_Wounds_Icon.webp/40px-Cure_Wounds_Icon.webp"
+  },
+  {
+    "name": "Disguise Self",
+    "url": "https://bg3.wiki/wiki/Disguise_Self",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/8d/Disguise_Self_Icon.webp/40px-Disguise_Self_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Dissonant Whispers",
+    "url": "https://bg3.wiki/wiki/Dissonant_Whispers",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/4/40/Dissonant_Whispers_Icon.webp/40px-Dissonant_Whispers_Icon.webp",
+    "range": 18.0,
+    "damage": "3~18",
+    "damage_type": "Psychic"
+  },
+  {
+    "name": "Divine Favour",
+    "url": "https://bg3.wiki/wiki/Divine_Favour",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/4/44/Divine_Favour_Icon.webp/40px-Divine_Favour_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Enhance Leap",
+    "url": "https://bg3.wiki/wiki/Enhance_Leap",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/4/46/Enhance_Leap_Icon.webp/40px-Enhance_Leap_Icon.webp"
+  },
+  {
+    "name": "Ensnaring Strike",
+    "url": "https://bg3.wiki/wiki/Ensnaring_Strike",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/60/Ensnaring_Strike_Ranged_Icon.webp/40px-Ensnaring_Strike_Ranged_Icon.webp",
+    "damage": "1~6",
+    "damage_type": "Piercing"
+  },
+  {
+    "name": "Entangle",
+    "url": "https://bg3.wiki/wiki/Entangle",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/d9/Entangle_Icon.webp/40px-Entangle_Icon.webp",
+    "range": 18.0,
+    "aoe": 3.0
+  },
+  {
+    "name": "Expeditious Retreat",
+    "url": "https://bg3.wiki/wiki/Expeditious_Retreat",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/d6/Expeditious_Retreat_Icon.webp/40px-Expeditious_Retreat_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Faerie Fire",
+    "url": "https://bg3.wiki/wiki/Faerie_Fire",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/a/a1/Faerie_Fire_Icon.webp/40px-Faerie_Fire_Icon.webp",
+    "range": 18.0,
+    "aoe": 6.0
+  },
+  {
+    "name": "False Life",
+    "url": "https://bg3.wiki/wiki/False_Life",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/f/f2/False_Life_Icon.webp/40px-False_Life_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Feather Fall",
+    "url": "https://bg3.wiki/wiki/Feather_Fall",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/0/00/Feather_Fall_Icon.webp/40px-Feather_Fall_Icon.webp",
+    "range": 0,
+    "aoe": 9.0
+  },
+  {
+    "name": "Find Familiar",
+    "url": "https://bg3.wiki/wiki/Find_Familiar",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/8b/Find_Familiar_Cat_Icon.webp/40px-Find_Familiar_Cat_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Fog Cloud",
+    "url": "https://bg3.wiki/wiki/Fog_Cloud",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/c0/Fog_Cloud_Icon.webp/40px-Fog_Cloud_Icon.webp",
+    "range": 18.0,
+    "aoe": 4.5
+  },
+  {
+    "name": "Goodberry",
+    "url": "https://bg3.wiki/wiki/Goodberry",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/4/42/Goodberry_Icon.webp/40px-Goodberry_Icon.webp"
+  },
+  {
+    "name": "Grease",
+    "url": "https://bg3.wiki/wiki/Grease",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/7a/Grease_Icon.webp/40px-Grease_Icon.webp",
+    "range": 18.0,
+    "aoe": 4.0
+  },
+  {
+    "name": "Guiding Bolt",
+    "url": "https://bg3.wiki/wiki/Guiding_Bolt",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/2/2c/Guiding_Bolt_Icon.webp/40px-Guiding_Bolt_Icon.webp",
+    "range": 18.0,
+    "damage": "4~24",
+    "damage_type": "Radiant"
+  },
+  {
+    "name": "Hail of Thorns",
+    "url": "https://bg3.wiki/wiki/Hail_of_Thorns",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/63/Hail_of_Thorns_Icon.webp/40px-Hail_of_Thorns_Icon.webp",
+    "range": 18.0,
+    "aoe": 2.0,
+    "damage": "1~10",
+    "damage_type": "Piercing"
+  },
+  {
+    "name": "Healing Word",
+    "url": "https://bg3.wiki/wiki/Healing_Word",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/e/ef/Healing_Word_Icon.webp/40px-Healing_Word_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Hellish Rebuke",
+    "url": "https://bg3.wiki/wiki/Hellish_Rebuke",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/82/Hellish_Rebuke_Icon.webp/40px-Hellish_Rebuke_Icon.webp",
+    "damage": "2~20",
+    "damage_type": "Fire"
+  },
+  {
+    "name": "Heroism",
+    "url": "https://bg3.wiki/wiki/Heroism",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/1/19/Heroism_Icon.webp/40px-Heroism_Icon.webp"
+  },
+  {
+    "name": "Hex",
+    "url": "https://bg3.wiki/wiki/Hex",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/9/9f/Hex_Icon.webp/40px-Hex_Icon.webp",
+    "range": 18.0,
+    "damage": "1~6",
+    "damage_type": "Necrotic"
+  },
+  {
+    "name": "Hunter's Mark",
+    "url": "https://bg3.wiki/wiki/Hunter%27s_Mark",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/f/f6/Hunter%27s_Mark_Icon.webp/40px-Hunter%27s_Mark_Icon.webp",
+    "range": 18.0,
+    "damage": "1~6",
+    "damage_type": "Weapon"
+  },
+  {
+    "name": "Ice Knife",
+    "url": "https://bg3.wiki/wiki/Ice_Knife",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/1/17/Ice_Knife_Icon.webp/40px-Ice_Knife_Icon.webp",
+    "range": 18.0,
+    "aoe": 2.0,
+    "damage": "3~22",
+    "damage_type": "Piercing, Cold"
+  },
+  {
+    "name": "Inflict Wounds",
+    "url": "https://bg3.wiki/wiki/Inflict_Wounds",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/3/3d/Inflict_Wounds_Icon.webp/40px-Inflict_Wounds_Icon.webp",
+    "damage": "3~30",
+    "damage_type": "Necrotic"
+  },
+  {
+    "name": "Longstrider",
+    "url": "https://bg3.wiki/wiki/Longstrider",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/3/35/Longstrider_Icon.webp/40px-Longstrider_Icon.webp"
+  },
+  {
+    "name": "Mage Armour",
+    "url": "https://bg3.wiki/wiki/Mage_Armour",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/0/0d/Mage_Armour_Icon.webp/40px-Mage_Armour_Icon.webp"
+  },
+  {
+    "name": "Magic Missile",
+    "url": "https://bg3.wiki/wiki/Magic_Missile",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/d4/Magic_Missile_Icon.webp/40px-Magic_Missile_Icon.webp",
+    "range": 18.0,
+    "damage": "6~15",
+    "damage_type": "Force"
+  },
+  {
+    "name": "Protection from Evil and Good",
+    "url": "https://bg3.wiki/wiki/Protection_from_Evil_and_Good",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/3/35/Protection_from_Evil_and_Good_Icon.webp/40px-Protection_from_Evil_and_Good_Icon.webp"
+  },
+  {
+    "name": "Ray of Sickness",
+    "url": "https://bg3.wiki/wiki/Ray_of_Sickness",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/74/Ray_of_Sickness_Icon.webp/40px-Ray_of_Sickness_Icon.webp",
+    "range": 18.0,
+    "damage": "2~16",
+    "damage_type": "Poison"
+  },
+  {
+    "name": "Sanctuary",
+    "url": "https://bg3.wiki/wiki/Sanctuary",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/c1/Sanctuary_Icon.webp/40px-Sanctuary_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Searing Smite",
+    "url": "https://bg3.wiki/wiki/Searing_Smite",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/5/50/Searing_Smite_Icon.webp/40px-Searing_Smite_Icon.webp",
+    "range": 0,
+    "damage": "2~12",
+    "damage_type": "Fire"
+  },
+  {
+    "name": "Shield",
+    "url": "https://bg3.wiki/wiki/Shield_(spell)",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/cf/Shield_spell_Icon.webp/40px-Shield_spell_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Shield of Faith",
+    "url": "https://bg3.wiki/wiki/Shield_of_Faith",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/83/Shield_of_Faith_Icon.webp/40px-Shield_of_Faith_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Sleep",
+    "url": "https://bg3.wiki/wiki/Sleep",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/a/ae/Sleep_Icon.webp/40px-Sleep_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Speak with Animals",
+    "url": "https://bg3.wiki/wiki/Speak_with_Animals",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/2/24/Speak_with_Animals_Icon.webp/40px-Speak_with_Animals_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Tasha's Hideous Laughter",
+    "url": "https://bg3.wiki/wiki/Tasha%27s_Hideous_Laughter",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/2/27/Tasha%27s_Hideous_Laughter_Icon.webp/40px-Tasha%27s_Hideous_Laughter_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Thunderous Smite",
+    "url": "https://bg3.wiki/wiki/Thunderous_Smite",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/dd/Thunderous_Smite_Icon.webp/40px-Thunderous_Smite_Icon.webp",
+    "range": 0,
+    "damage": "2~12",
+    "damage_type": "Thunder"
+  },
+  {
+    "name": "Thunderwave",
+    "url": "https://bg3.wiki/wiki/Thunderwave",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/0/04/Thunderwave_Icon.webp/40px-Thunderwave_Icon.webp",
+    "aoe": 5.0,
+    "damage": "2~16",
+    "damage_type": "Thunder"
+  },
+  {
+    "name": "Witch Bolt",
+    "url": "https://bg3.wiki/wiki/Witch_Bolt",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/d2/Witch_Bolt_Icon.webp/40px-Witch_Bolt_Icon.webp",
+    "range": 18.0,
+    "damage": "1~12",
+    "damage_type": "Lightning"
+  },
+  {
+    "name": "Wrathful Smite",
+    "url": "https://bg3.wiki/wiki/Wrathful_Smite",
+    "level": 1,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/79/Wrathful_Smite_Icon.webp/40px-Wrathful_Smite_Icon.webp",
+    "range": 0,
+    "damage": "1~6",
+    "damage_type": "Psychic"
+  },
+  {
+    "name": "Aid",
+    "url": "https://bg3.wiki/wiki/Aid",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/5/50/Aid_Icon.webp/40px-Aid_Icon.webp",
+    "range": 0,
+    "aoe": 9.0
+  },
+  {
+    "name": "Arcane Lock",
+    "url": "https://bg3.wiki/wiki/Arcane_Lock",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/79/Arcane_Lock_Icon.webp/40px-Arcane_Lock_Icon.webp"
+  },
+  {
+    "name": "Barkskin",
+    "url": "https://bg3.wiki/wiki/Barkskin",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/8b/Barkskin_Icon.webp/40px-Barkskin_Icon.webp"
+  },
+  {
+    "name": "Blindness",
+    "url": "https://bg3.wiki/wiki/Blindness",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/5/5a/Blindness_Icon.webp/40px-Blindness_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Blur",
+    "url": "https://bg3.wiki/wiki/Blur",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/0/0d/Blur_Icon.webp/40px-Blur_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Branding Smite",
+    "url": "https://bg3.wiki/wiki/Branding_Smite",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/5/5e/Branding_Smite_Melee_Icon.webp/40px-Branding_Smite_Melee_Icon.webp",
+    "range": 0,
+    "damage": "2~12",
+    "damage_type": "Radiant"
+  },
+  {
+    "name": "Calm Emotions",
+    "url": "https://bg3.wiki/wiki/Calm_Emotions",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/d9/Calm_Emotions_Icon.webp/40px-Calm_Emotions_Icon.webp",
+    "range": 18.0,
+    "aoe": 6.0
+  },
+  {
+    "name": "Cloud of Daggers",
+    "url": "https://bg3.wiki/wiki/Cloud_of_Daggers",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/3/3d/Cloud_of_Daggers_Icon.webp/40px-Cloud_of_Daggers_Icon.webp",
+    "range": 18.0,
+    "aoe": 2.0,
+    "damage": "4~16",
+    "damage_type": "Slashing"
+  },
+  {
+    "name": "Crown of Madness",
+    "url": "https://bg3.wiki/wiki/Crown_of_Madness",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/4/48/Crown_of_Madness_Icon.webp/40px-Crown_of_Madness_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Darkness",
+    "url": "https://bg3.wiki/wiki/Darkness",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/b/bf/Darkness_Icon.webp/40px-Darkness_Icon.webp",
+    "range": 18.0,
+    "aoe": 5.0
+  },
+  {
+    "name": "Darkvision",
+    "url": "https://bg3.wiki/wiki/Darkvision_(spell)",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/0/01/Darkvision_spell_Icon.webp/40px-Darkvision_spell_Icon.webp"
+  },
+  {
+    "name": "Detect Thoughts",
+    "url": "https://bg3.wiki/wiki/Detect_Thoughts",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/b/b6/Detect_Thoughts_Icon.webp/40px-Detect_Thoughts_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Enhance Ability",
+    "url": "https://bg3.wiki/wiki/Enhance_Ability",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/65/Enhance_Ability_Icon.webp/40px-Enhance_Ability_Icon.webp"
+  },
+  {
+    "name": "Enlarge/Reduce",
+    "url": "https://bg3.wiki/wiki/Enlarge/Reduce",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/c6/Enlarge_Reduce_Icon.webp/40px-Enlarge_Reduce_Icon.webp",
+    "range": 9.0
+  },
+  {
+    "name": "Enthrall",
+    "url": "https://bg3.wiki/wiki/Enthrall",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/9/90/Enthrall_Icon.webp/40px-Enthrall_Icon.webp",
+    "range": 6.0
+  },
+  {
+    "name": "Flame Blade",
+    "url": "https://bg3.wiki/wiki/Flame_Blade",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/c8/Flame_Blade_Icon.webp/40px-Flame_Blade_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Flaming Sphere",
+    "url": "https://bg3.wiki/wiki/Flaming_Sphere",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/66/Flaming_Sphere_Icon.webp/40px-Flaming_Sphere_Icon.webp",
+    "range": 18.0,
+    "aoe": 2.0,
+    "damage": "2~12",
+    "damage_type": "Fire"
+  },
+  {
+    "name": "Gust of Wind",
+    "url": "https://bg3.wiki/wiki/Gust_of_Wind",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/5/58/Gust_of_Wind_Icon.webp/40px-Gust_of_Wind_Icon.webp",
+    "range": 0,
+    "aoe": 12.0
+  },
+  {
+    "name": "Heat Metal",
+    "url": "https://bg3.wiki/wiki/Heat_Metal",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/a/a3/Heat_Metal_Icon.webp/40px-Heat_Metal_Icon.webp",
+    "range": 18.0,
+    "damage": "2~16",
+    "damage_type": "Fire"
+  },
+  {
+    "name": "Hold Person",
+    "url": "https://bg3.wiki/wiki/Hold_Person",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/75/Hold_Person_Icon.webp/40px-Hold_Person_Icon.webp",
+    "range": 3.0
+  },
+  {
+    "name": "Invisibility",
+    "url": "https://bg3.wiki/wiki/Invisibility_(spell)",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/4/4e/Invisibility_spell_Icon.webp/40px-Invisibility_spell_Icon.webp"
+  },
+  {
+    "name": "Knock",
+    "url": "https://bg3.wiki/wiki/Knock",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/a/a4/Knock_Icon.webp/40px-Knock_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Lesser Restoration",
+    "url": "https://bg3.wiki/wiki/Lesser_Restoration",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/e/e4/Lesser_Restoration_Icon.webp/40px-Lesser_Restoration_Icon.webp"
+  },
+  {
+    "name": "Magic Weapon",
+    "url": "https://bg3.wiki/wiki/Magic_Weapon",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/9/9c/Magic_Weapon_Icon.webp/40px-Magic_Weapon_Icon.webp"
+  },
+  {
+    "name": "Melf's Acid Arrow",
+    "url": "https://bg3.wiki/wiki/Melf%27s_Acid_Arrow",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/67/Melf%27s_Acid_Arrow_Icon.webp/40px-Melf%27s_Acid_Arrow_Icon.webp",
+    "range": 18.0,
+    "aoe": 2.0,
+    "damage": "6~24",
+    "damage_type": "Acid"
+  },
+  {
+    "name": "Mirror Image",
+    "url": "https://bg3.wiki/wiki/Mirror_Image",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/4/41/Mirror_Image_Icon.webp/40px-Mirror_Image_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Misty Step",
+    "url": "https://bg3.wiki/wiki/Misty_Step",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/1/1f/Misty_Step_Icon.webp/40px-Misty_Step_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Moonbeam",
+    "url": "https://bg3.wiki/wiki/Moonbeam",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/8b/Moonbeam_Icon.webp/40px-Moonbeam_Icon.webp",
+    "range": 18.0,
+    "aoe": 1.0,
+    "damage": "2~20",
+    "damage_type": "Radiant"
+  },
+  {
+    "name": "Pass Without Trace",
+    "url": "https://bg3.wiki/wiki/Pass_Without_Trace",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/2/2b/Pass_Without_Trace_Icon.webp/40px-Pass_Without_Trace_Icon.webp",
+    "range": 0,
+    "aoe": 9.0
+  },
+  {
+    "name": "Phantasmal Force",
+    "url": "https://bg3.wiki/wiki/Phantasmal_Force",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/a/ac/Phantasmal_Force_Icon.webp/40px-Phantasmal_Force_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Prayer of Healing",
+    "url": "https://bg3.wiki/wiki/Prayer_of_Healing",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/e/e0/Prayer_of_Healing_Icon.webp/40px-Prayer_of_Healing_Icon.webp",
+    "range": 0,
+    "aoe": 9.0
+  },
+  {
+    "name": "Protection from Poison",
+    "url": "https://bg3.wiki/wiki/Protection_from_Poison",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/3/3b/Protection_from_Poison_Icon.webp/40px-Protection_from_Poison_Icon.webp"
+  },
+  {
+    "name": "Ray of Enfeeblement",
+    "url": "https://bg3.wiki/wiki/Ray_of_Enfeeblement",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/7b/Ray_of_Enfeeblement_Icon.webp/40px-Ray_of_Enfeeblement_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Scorching Ray",
+    "url": "https://bg3.wiki/wiki/Scorching_Ray",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/8e/Scorching_Ray_Icon.webp/40px-Scorching_Ray_Icon.webp",
+    "range": 18.0,
+    "damage": "6~36",
+    "damage_type": "Fire"
+  },
+  {
+    "name": "See Invisibility",
+    "url": "https://bg3.wiki/wiki/See_Invisibility_(spell)",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/c3/See_Invisibility_Icon.webp/40px-See_Invisibility_Icon.webp",
+    "range": 0,
+    "aoe": 9.0
+  },
+  {
+    "name": "Shadow Blade",
+    "url": "https://bg3.wiki/wiki/Shadow_Blade",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/6e/Shadow_Blade_Icon.webp/40px-Shadow_Blade_Icon.webp",
+    "range": 0,
+    "damage": "2~16 + modifiers",
+    "damage_type": "Psychic"
+  },
+  {
+    "name": "Shatter",
+    "url": "https://bg3.wiki/wiki/Shatter",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/c5/Shatter_Icon.webp/40px-Shatter_Icon.webp",
+    "range": 18.0,
+    "aoe": 3.0,
+    "damage": "3~24",
+    "damage_type": "Thunder"
+  },
+  {
+    "name": "Silence",
+    "url": "https://bg3.wiki/wiki/Silence",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/78/Silence_Icon.webp/40px-Silence_Icon.webp",
+    "range": 18.0,
+    "aoe": 6.0
+  },
+  {
+    "name": "Spike Growth",
+    "url": "https://bg3.wiki/wiki/Spike_Growth",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/d4/Spike_Growth_Icon.webp/40px-Spike_Growth_Icon.webp",
+    "range": 18.0,
+    "aoe": 6.0,
+    "damage": "2~8",
+    "damage_type": "Piercing"
+  },
+  {
+    "name": "Spiritual Weapon",
+    "url": "https://bg3.wiki/wiki/Spiritual_Weapon",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/2/26/Spiritual_Weapon_Icon.webp/40px-Spiritual_Weapon_Icon.webp",
+    "range": 18.0,
+    "damage": "2~9 + modifiers",
+    "damage_type": "Force"
+  },
+  {
+    "name": "Warding Bond",
+    "url": "https://bg3.wiki/wiki/Warding_Bond",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/e/ea/Warding_Bond_Icon.webp/40px-Warding_Bond_Icon.webp"
+  },
+  {
+    "name": "Web",
+    "url": "https://bg3.wiki/wiki/Web",
+    "level": 2,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/8b/Web_Icon.webp/40px-Web_Icon.webp",
+    "range": 18.0,
+    "aoe": 4.0
+  },
+  {
+    "name": "Animate Dead",
+    "url": "https://bg3.wiki/wiki/Animate_Dead",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/2/2f/Animate_Dead_Icon.webp/40px-Animate_Dead_Icon.webp",
+    "range": 3.0
+  },
+  {
+    "name": "Beacon of Hope",
+    "url": "https://bg3.wiki/wiki/Beacon_of_Hope",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/5/5d/Beacon_of_Hope_Icon.webp/40px-Beacon_of_Hope_Icon.webp",
+    "range": 0,
+    "aoe": 9.0
+  },
+  {
+    "name": "Bestow Curse",
+    "url": "https://bg3.wiki/wiki/Bestow_Curse",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/0/00/Bestow_Curse_Icon.webp/40px-Bestow_Curse_Icon.webp"
+  },
+  {
+    "name": "Blinding Smite",
+    "url": "https://bg3.wiki/wiki/Blinding_Smite",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/5/5e/Blinding_Smite_Icon.webp/40px-Blinding_Smite_Icon.webp",
+    "range": 0,
+    "damage": "3~24",
+    "damage_type": "Radiant"
+  },
+  {
+    "name": "Blink",
+    "url": "https://bg3.wiki/wiki/Blink",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/b/b3/Blink_Icon.webp/40px-Blink_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Call Lightning",
+    "url": "https://bg3.wiki/wiki/Call_Lightning",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/9/99/Call_Lightning_Icon.webp/40px-Call_Lightning_Icon.webp",
+    "range": 18.0,
+    "aoe": 2.0,
+    "damage": "3~30",
+    "damage_type": "Lightning"
+  },
+  {
+    "name": "Conjure Barrage",
+    "url": "https://bg3.wiki/wiki/Conjure_Barrage",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/df/Conjure_Barrage_Icon.webp/40px-Conjure_Barrage_Icon.webp",
+    "range": 0,
+    "aoe": 9.0,
+    "damage": "2~16",
+    "damage_type": "Weapon"
+  },
+  {
+    "name": "Counterspell",
+    "url": "https://bg3.wiki/wiki/Counterspell",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/5/50/Counterspell_Icon.webp/40px-Counterspell_Icon.webp"
+  },
+  {
+    "name": "Crusader's Mantle",
+    "url": "https://bg3.wiki/wiki/Crusader%27s_Mantle",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/4/4d/Crusader%27s_Mantle_Icon.webp/40px-Crusader%27s_Mantle_Icon.webp",
+    "range": 0,
+    "aoe": 9.0,
+    "damage": "1~4",
+    "damage_type": "Radiant"
+  },
+  {
+    "name": "Daylight",
+    "url": "https://bg3.wiki/wiki/Daylight",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/6e/Daylight_Icon.webp/40px-Daylight_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Elemental Weapon",
+    "url": "https://bg3.wiki/wiki/Elemental_Weapon",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/0/06/Elemental_Weapon_Icon.webp/40px-Elemental_Weapon_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Fear",
+    "url": "https://bg3.wiki/wiki/Fear",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/a/ad/Fear_Icon.webp/40px-Fear_Icon.webp",
+    "range": 0,
+    "aoe": 9.0
+  },
+  {
+    "name": "Feign Death",
+    "url": "https://bg3.wiki/wiki/Feign_Death",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/f/fe/Feign_Death_Icon.webp/40px-Feign_Death_Icon.webp",
+    "range": 1.5
+  },
+  {
+    "name": "Fireball",
+    "url": "https://bg3.wiki/wiki/Fireball",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/cb/Fireball_Icon.webp/40px-Fireball_Icon.webp",
+    "range": 18.0,
+    "aoe": 4.0,
+    "damage": "8~48",
+    "damage_type": "Fire"
+  },
+  {
+    "name": "Gaseous Form",
+    "url": "https://bg3.wiki/wiki/Gaseous_Form",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/62/Gaseous_Form_Icon.webp/40px-Gaseous_Form_Icon.webp"
+  },
+  {
+    "name": "Glyph of Warding",
+    "url": "https://bg3.wiki/wiki/Glyph_of_Warding",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/88/Glyph_of_Warding_Icon.webp/40px-Glyph_of_Warding_Icon.webp",
+    "range": 9.0,
+    "aoe": 4.0
+  },
+  {
+    "name": "Grant Flight",
+    "url": "https://bg3.wiki/wiki/Grant_Flight",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/4/45/Grant_Flight_Icon.webp/40px-Grant_Flight_Icon.webp"
+  },
+  {
+    "name": "Haste",
+    "url": "https://bg3.wiki/wiki/Haste",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/1/11/Haste_Icon.webp/40px-Haste_Icon.webp",
+    "range": 9.0
+  },
+  {
+    "name": "Hunger of Hadar",
+    "url": "https://bg3.wiki/wiki/Hunger_of_Hadar",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/4/44/Hunger_of_Hadar_Icon.webp/40px-Hunger_of_Hadar_Icon.webp",
+    "range": 18.0,
+    "aoe": 6.0,
+    "damage": "4~24",
+    "damage_type": "Cold, Acid"
+  },
+  {
+    "name": "Hypnotic Pattern",
+    "url": "https://bg3.wiki/wiki/Hypnotic_Pattern",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/2/28/Hypnotic_Pattern_Icon.webp/40px-Hypnotic_Pattern_Icon.webp",
+    "range": 18.0,
+    "aoe": 9.0
+  },
+  {
+    "name": "Lightning Arrow",
+    "url": "https://bg3.wiki/wiki/Lightning_Arrow",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/e/e3/Lightning_Arrow_Icon.webp/40px-Lightning_Arrow_Icon.webp",
+    "range": 18.0,
+    "aoe": 3.0,
+    "damage": "6~48",
+    "damage_type": "Lightning"
+  },
+  {
+    "name": "Lightning Bolt",
+    "url": "https://bg3.wiki/wiki/Lightning_Bolt",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/cb/Lightning_Bolt_Icon.webp/40px-Lightning_Bolt_Icon.webp",
+    "range": 0,
+    "aoe": 30.0,
+    "damage": "8~48",
+    "damage_type": "Lightning"
+  },
+  {
+    "name": "Mass Healing Word",
+    "url": "https://bg3.wiki/wiki/Mass_Healing_Word",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/f/f8/Mass_Healing_Word_Icon.webp/40px-Mass_Healing_Word_Icon.webp",
+    "range": 0,
+    "aoe": 18.0
+  },
+  {
+    "name": "Plant Growth",
+    "url": "https://bg3.wiki/wiki/Plant_Growth",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/a/ad/Plant_Growth_Icon.webp/40px-Plant_Growth_Icon.webp",
+    "range": 18.0,
+    "aoe": 6.0
+  },
+  {
+    "name": "Protection from Energy",
+    "url": "https://bg3.wiki/wiki/Protection_from_Energy",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/1/15/Protection_from_Energy_Icon.webp/40px-Protection_from_Energy_Icon.webp"
+  },
+  {
+    "name": "Remove Curse",
+    "url": "https://bg3.wiki/wiki/Remove_Curse",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/7f/Remove_Curse_Icon.webp/40px-Remove_Curse_Icon.webp"
+  },
+  {
+    "name": "Revivify",
+    "url": "https://bg3.wiki/wiki/Revivify",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/5/59/Revivify_Icon.webp/40px-Revivify_Icon.webp",
+    "range": 9.0,
+    "aoe": 9.0
+  },
+  {
+    "name": "Sleet Storm",
+    "url": "https://bg3.wiki/wiki/Sleet_Storm",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/5/50/Sleet_Storm_Icon.webp/40px-Sleet_Storm_Icon.webp",
+    "range": 18.0,
+    "aoe": 9.0
+  },
+  {
+    "name": "Slow",
+    "url": "https://bg3.wiki/wiki/Slow",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/b/be/Slow_Icon.webp/40px-Slow_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Speak with Dead",
+    "url": "https://bg3.wiki/wiki/Speak_with_Dead",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/8c/Speak_with_Dead_Icon.webp/40px-Speak_with_Dead_Icon.webp",
+    "range": 9.0
+  },
+  {
+    "name": "Spirit Guardians",
+    "url": "https://bg3.wiki/wiki/Spirit_Guardians",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/d6/Spirit_Guardians_Icon.webp/40px-Spirit_Guardians_Icon.webp",
+    "range": 0,
+    "aoe": 3.0
+  },
+  {
+    "name": "Stinking Cloud",
+    "url": "https://bg3.wiki/wiki/Stinking_Cloud",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/b/b7/Stinking_Cloud_Icon.webp/40px-Stinking_Cloud_Icon.webp",
+    "range": 18.0,
+    "aoe": 6.0
+  },
+  {
+    "name": "Vampiric Touch",
+    "url": "https://bg3.wiki/wiki/Vampiric_Touch",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/85/Vampiric_Touch_Icon.webp/40px-Vampiric_Touch_Icon.webp",
+    "damage": "3~18",
+    "damage_type": "Necrotic"
+  },
+  {
+    "name": "Warden of Vitality",
+    "url": "https://bg3.wiki/wiki/Warden_of_Vitality",
+    "level": 3,
+    "icon_url": "https://bg3.wiki/w/images/thumb/0/0b/Warden_of_Vitality_Icon.webp/40px-Warden_of_Vitality_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Banishment",
+    "url": "https://bg3.wiki/wiki/Banishment",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/6d/Banishment_Icon.webp/40px-Banishment_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Blight",
+    "url": "https://bg3.wiki/wiki/Blight",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/e/e0/Blight_Icon.webp/40px-Blight_Icon.webp",
+    "range": 9.0,
+    "damage": "8~64",
+    "damage_type": "Necrotic"
+  },
+  {
+    "name": "Confusion",
+    "url": "https://bg3.wiki/wiki/Confusion",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/7b/Confusion_Icon.webp/40px-Confusion_Icon.webp",
+    "range": 18.0,
+    "aoe": 6.0
+  },
+  {
+    "name": "Conjure Minor Elemental",
+    "url": "https://bg3.wiki/wiki/Conjure_Minor_Elemental",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/0/08/Conjure_Minor_Elemental_Azer_Icon.webp/40px-Conjure_Minor_Elemental_Azer_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Conjure Woodland Being",
+    "url": "https://bg3.wiki/wiki/Conjure_Woodland_Being",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/8a/Conjure_Woodland_Being_Icon.webp/40px-Conjure_Woodland_Being_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Death Ward",
+    "url": "https://bg3.wiki/wiki/Death_Ward",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/84/Death_Ward_Icon.webp/40px-Death_Ward_Icon.webp"
+  },
+  {
+    "name": "Dimension Door",
+    "url": "https://bg3.wiki/wiki/Dimension_Door",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/da/Dimension_Door_Icon.webp/40px-Dimension_Door_Icon.webp",
+    "range": 50.0
+  },
+  {
+    "name": "Dominate Beast",
+    "url": "https://bg3.wiki/wiki/Dominate_Beast",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/83/Dominate_Beast_Icon.webp/40px-Dominate_Beast_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Evard's Black Tentacles",
+    "url": "https://bg3.wiki/wiki/Evard%27s_Black_Tentacles",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/d6/Evard%27s_Black_Tentacles_Icon.webp/40px-Evard%27s_Black_Tentacles_Icon.webp",
+    "range": 18.0,
+    "aoe": 6.0,
+    "damage": "3~18",
+    "damage_type": "Bludgeoning"
+  },
+  {
+    "name": "Fire Shield",
+    "url": "https://bg3.wiki/wiki/Fire_Shield",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/e/e0/Fire_Shield_Icon.webp/40px-Fire_Shield_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Freedom of Movement",
+    "url": "https://bg3.wiki/wiki/Freedom_of_Movement",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/f/f0/Freedom_of_Movement_Icon.webp/40px-Freedom_of_Movement_Icon.webp"
+  },
+  {
+    "name": "Grasping Vine",
+    "url": "https://bg3.wiki/wiki/Grasping_Vine",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/8b/Grasping_Vine_Icon.webp/40px-Grasping_Vine_Icon.webp",
+    "range": 9.0,
+    "aoe": 3.0
+  },
+  {
+    "name": "Greater Invisibility",
+    "url": "https://bg3.wiki/wiki/Greater_Invisibility",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/2/28/Greater_Invisibility_Icon.webp/40px-Greater_Invisibility_Icon.webp",
+    "range": 1.5
+  },
+  {
+    "name": "Guardian of Faith",
+    "url": "https://bg3.wiki/wiki/Guardian_of_Faith",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/7d/Guardian_of_Faith_Icon.webp/40px-Guardian_of_Faith_Icon.webp",
+    "range": 9.0
+  },
+  {
+    "name": "Ice Storm",
+    "url": "https://bg3.wiki/wiki/Ice_Storm",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/9/9b/Ice_Storm_Icon.webp/40px-Ice_Storm_Icon.webp",
+    "range": 18.0,
+    "aoe": 6.0,
+    "damage": "6~40",
+    "damage_type": "Bludgeoning, Cold"
+  },
+  {
+    "name": "Otiluke's Resilient Sphere",
+    "url": "https://bg3.wiki/wiki/Otiluke%27s_Resilient_Sphere",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/82/Otiluke%27s_Resilient_Sphere_Icon.webp/40px-Otiluke%27s_Resilient_Sphere_Icon.webp",
+    "range": 9.0
+  },
+  {
+    "name": "Phantasmal Killer",
+    "url": "https://bg3.wiki/wiki/Phantasmal_Killer",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/da/Phantasmal_Killer_Icon.webp/40px-Phantasmal_Killer_Icon.webp",
+    "range": 18.0,
+    "damage": "4~40",
+    "damage_type": "Psychic"
+  },
+  {
+    "name": "Polymorph",
+    "url": "https://bg3.wiki/wiki/Polymorph",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/f/f6/Polymorph_Icon.webp/40px-Polymorph_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Staggering Smite",
+    "url": "https://bg3.wiki/wiki/Staggering_Smite",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/0/03/Staggering_Smite_Icon.webp/40px-Staggering_Smite_Icon.webp",
+    "range": 0,
+    "damage": "4~24",
+    "damage_type": "Psychic"
+  },
+  {
+    "name": "Stoneskin",
+    "url": "https://bg3.wiki/wiki/Stoneskin",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/c3/Stoneskin_Icon.webp/40px-Stoneskin_Icon.webp"
+  },
+  {
+    "name": "Wall of Fire",
+    "url": "https://bg3.wiki/wiki/Wall_of_Fire",
+    "level": 4,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/ca/Wall_of_Fire_Icon.webp/40px-Wall_of_Fire_Icon.webp",
+    "range": 18.0,
+    "aoe": 36.0,
+    "damage": "5~40",
+    "damage_type": "Fire"
+  },
+  {
+    "name": "Banishing Smite",
+    "url": "https://bg3.wiki/wiki/Banishing_Smite",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/3/3b/Banishing_Smite_Melee_Icon.webp/40px-Banishing_Smite_Melee_Icon.webp",
+    "range": 0,
+    "damage": "5~50",
+    "damage_type": "Force"
+  },
+  {
+    "name": "Cloudkill",
+    "url": "https://bg3.wiki/wiki/Cloudkill",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/74/Cloudkill_Icon.webp/40px-Cloudkill_Icon.webp",
+    "range": 18.0,
+    "aoe": 6.0,
+    "damage": "5~40",
+    "damage_type": "Poison"
+  },
+  {
+    "name": "Cone of Cold",
+    "url": "https://bg3.wiki/wiki/Cone_of_Cold",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/e/ef/Cone_of_Cold_Icon.webp/40px-Cone_of_Cold_Icon.webp",
+    "range": 0,
+    "aoe": 9.0,
+    "damage": "8~64",
+    "damage_type": "Cold"
+  },
+  {
+    "name": "Conjure Elemental",
+    "url": "https://bg3.wiki/wiki/Conjure_Elemental",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/e/e6/Conjure_Elemental_Icon.webp/40px-Conjure_Elemental_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Contagion",
+    "url": "https://bg3.wiki/wiki/Contagion",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/60/Contagion_Filth_Fever_Icon.webp/40px-Contagion_Filth_Fever_Icon.webp"
+  },
+  {
+    "name": "Curriculum of Strategy: Artistry of War",
+    "url": "https://bg3.wiki/wiki/Curriculum_of_Strategy:_Artistry_of_War",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/b/b7/Curriculum_of_Strategy_Artistry_of_War_Icon.webp/40px-Curriculum_of_Strategy_Artistry_of_War_Icon.webp",
+    "range": 18.0,
+    "damage": "48~108",
+    "damage_type": "Force"
+  },
+  {
+    "name": "Destructive Wave",
+    "url": "https://bg3.wiki/wiki/Destructive_Wave",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/f/fd/Destructive_Wave_Icon.webp/40px-Destructive_Wave_Icon.webp",
+    "range": 9.0,
+    "damage": "10~60",
+    "damage_type": "Thunder, Radiant"
+  },
+  {
+    "name": "Dethrone",
+    "url": "https://bg3.wiki/wiki/Dethrone",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/6e/Dethrone_Icon.webp/40px-Dethrone_Icon.webp",
+    "range": 30.0,
+    "damage": "30~80",
+    "damage_type": "Necrotic"
+  },
+  {
+    "name": "Dispel Evil And Good",
+    "url": "https://bg3.wiki/wiki/Dispel_Evil_And_Good",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/a/a5/Dispel_Evil_And_Good_Icon.webp/40px-Dispel_Evil_And_Good_Icon.webp",
+    "range": 0
+  },
+  {
+    "name": "Dominate Person",
+    "url": "https://bg3.wiki/wiki/Dominate_Person",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/1/1d/Dominate_Person_Icon.webp/40px-Dominate_Person_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Flame Strike",
+    "url": "https://bg3.wiki/wiki/Flame_Strike",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/b/b8/Flame_Strike_Icon.webp/40px-Flame_Strike_Icon.webp",
+    "range": 18.0,
+    "aoe": 3.0,
+    "damage": "10~60",
+    "damage_type": "Fire, Radiant"
+  },
+  {
+    "name": "Greater Restoration",
+    "url": "https://bg3.wiki/wiki/Greater_Restoration",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/e/ee/Greater_Restoration_Icon.webp/40px-Greater_Restoration_Icon.webp"
+  },
+  {
+    "name": "Hold Monster",
+    "url": "https://bg3.wiki/wiki/Hold_Monster",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/cf/Hold_Monster_Icon.webp/40px-Hold_Monster_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Insect Plague",
+    "url": "https://bg3.wiki/wiki/Insect_Plague",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/a/a2/Insect_Plague_Icon.webp/40px-Insect_Plague_Icon.webp",
+    "range": 18.0,
+    "aoe": 6.0,
+    "damage": "4~40",
+    "damage_type": "Piercing"
+  },
+  {
+    "name": "Mass Cure Wounds",
+    "url": "https://bg3.wiki/wiki/Mass_Cure_Wounds",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/3/32/Mass_Cure_Wounds_Icon.webp/40px-Mass_Cure_Wounds_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Planar Binding",
+    "url": "https://bg3.wiki/wiki/Planar_Binding",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/f/fa/Planar_Binding_Icon.webp/40px-Planar_Binding_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Seeming",
+    "url": "https://bg3.wiki/wiki/Seeming",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/f/f4/Seeming_Icon.webp/40px-Seeming_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Telekinesis",
+    "url": "https://bg3.wiki/wiki/Telekinesis",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/c7/Telekinesis_Icon.webp/40px-Telekinesis_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Wall of Stone",
+    "url": "https://bg3.wiki/wiki/Wall_of_Stone",
+    "level": 5,
+    "icon_url": "https://bg3.wiki/w/images/thumb/e/e2/Wall_of_Stone_Icon.webp/40px-Wall_of_Stone_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Arcane Gate",
+    "url": "https://bg3.wiki/wiki/Arcane_Gate",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/6e/Arcane_Gate_Icon.webp/40px-Arcane_Gate_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Blade Barrier",
+    "url": "https://bg3.wiki/wiki/Blade_Barrier",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/b/bb/Blade_Barrier_Icon.webp/40px-Blade_Barrier_Icon.webp",
+    "range": 18.0,
+    "aoe": 36.0,
+    "damage": "6~60",
+    "damage_type": "Slashing"
+  },
+  {
+    "name": "Chain Lightning",
+    "url": "https://bg3.wiki/wiki/Chain_Lightning",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/c/c9/Chain_Lightning_Icon.webp/40px-Chain_Lightning_Icon.webp",
+    "range": 18.0,
+    "damage": "10~80",
+    "damage_type": "Lightning"
+  },
+  {
+    "name": "Circle of Death",
+    "url": "https://bg3.wiki/wiki/Circle_of_Death",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/f/f2/Circle_of_Death_Icon.webp/40px-Circle_of_Death_Icon.webp",
+    "range": 18.0,
+    "aoe": 9.0,
+    "damage": "8~48",
+    "damage_type": "Necrotic"
+  },
+  {
+    "name": "Create Undead",
+    "url": "https://bg3.wiki/wiki/Create_Undead",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/da/Create_Undead_Icon.webp/40px-Create_Undead_Icon.webp",
+    "range": 3.0
+  },
+  {
+    "name": "Disintegrate",
+    "url": "https://bg3.wiki/wiki/Disintegrate",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/8a/Disintegrate_Icon.webp/40px-Disintegrate_Icon.webp",
+    "range": 9.0,
+    "damage": "50~100",
+    "damage_type": "Force"
+  },
+  {
+    "name": "Eyebite",
+    "url": "https://bg3.wiki/wiki/Eyebite",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/f/f7/Eyebite_Panicked_Icon.webp/40px-Eyebite_Panicked_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Flesh to Stone",
+    "url": "https://bg3.wiki/wiki/Flesh_to_Stone",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/72/Flesh_to_Stone_Icon.webp/40px-Flesh_to_Stone_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Globe of Invulnerability",
+    "url": "https://bg3.wiki/wiki/Globe_of_Invulnerability",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/7/7a/Globe_of_Invulnerability_Icon.webp/40px-Globe_of_Invulnerability_Icon.webp",
+    "range": 3.0,
+    "aoe": 3.0
+  },
+  {
+    "name": "Harm",
+    "url": "https://bg3.wiki/wiki/Harm",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/0/09/Harm_Icon.webp/40px-Harm_Icon.webp",
+    "range": 18.0,
+    "damage": "14~84",
+    "damage_type": "Necrotic"
+  },
+  {
+    "name": "Heal",
+    "url": "https://bg3.wiki/wiki/Heal",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/d3/Heal_Icon.webp/40px-Heal_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Heroes' Feast",
+    "url": "https://bg3.wiki/wiki/Heroes%27_Feast",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/a/a0/Heroes%27_Feast_Icon.webp/40px-Heroes%27_Feast_Icon.webp",
+    "range": 0,
+    "aoe": 18.0
+  },
+  {
+    "name": "Otiluke's Freezing Sphere",
+    "url": "https://bg3.wiki/wiki/Otiluke%27s_Freezing_Sphere",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/a/af/Otiluke%27s_Freezing_Sphere_Icon.webp/40px-Otiluke%27s_Freezing_Sphere_Icon.webp",
+    "damage": "10~60",
+    "damage_type": "Cold"
+  },
+  {
+    "name": "Otto's Irresistible Dance",
+    "url": "https://bg3.wiki/wiki/Otto%27s_Irresistible_Dance",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/8/8c/Otto%27s_Irresistible_Dance_Icon.webp/40px-Otto%27s_Irresistible_Dance_Icon.webp",
+    "range": 9.0
+  },
+  {
+    "name": "Planar Ally",
+    "url": "https://bg3.wiki/wiki/Planar_Ally",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/f/f3/Planar_Ally_Icon.webp/40px-Planar_Ally_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Sights of the Seelie: Summon Deva",
+    "url": "https://bg3.wiki/wiki/Sights_of_the_Seelie:_Summon_Deva",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/d8/Sights_of_the_Seelie_Summon_Deva_Icon.webp/40px-Sights_of_the_Seelie_Summon_Deva_Icon.webp",
+    "range": 18.0
+  },
+  {
+    "name": "Sunbeam",
+    "url": "https://bg3.wiki/wiki/Sunbeam",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/63/Sunbeam_Icon.webp/40px-Sunbeam_Icon.webp",
+    "aoe": 18.0,
+    "damage": "6~48",
+    "damage_type": "Radiant"
+  },
+  {
+    "name": "Wall of Ice",
+    "url": "https://bg3.wiki/wiki/Wall_of_Ice",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/d/d2/Wall_of_Ice_Icon.webp/40px-Wall_of_Ice_Icon.webp",
+    "range": 18.0,
+    "aoe": 9.0,
+    "damage": "20~120",
+    "damage_type": "Cold"
+  },
+  {
+    "name": "Wall of Thorns",
+    "url": "https://bg3.wiki/wiki/Wall_of_Thorns",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/6/6e/Wall_of_Thorns_Icon.webp/40px-Wall_of_Thorns_Icon.webp",
+    "range": 18.0,
+    "damage": "7~56",
+    "damage_type": "Piercing"
+  },
+  {
+    "name": "Wind Walk",
+    "url": "https://bg3.wiki/wiki/Wind_Walk",
+    "level": 6,
+    "icon_url": "https://bg3.wiki/w/images/thumb/0/06/Wind_Walk_Icon.webp/40px-Wind_Walk_Icon.webp",
+    "range": 9.0
+  }
+]

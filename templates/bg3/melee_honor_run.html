@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List of all Spells (Melee Filter) - BG3</title>
+  <style>
+    :root {
+      --bg-primary: rgb(35 35 35);
+      --bg-secondary: rgb(120 80 0);
+      --bg-card: #0f3460;
+      --text-primary: #e0e0e0;
+      --text-secondary: #a0a0b0;
+      --text-heading: #e8d5b5;
+      --accent: #c9a84c;
+      --accent-dim: #8a6d3b;
+      --link: #6bb5ff;
+      --link-hover: #9dd0ff;
+      --strikethrough: #ff6b6b;
+      --border: #2a2a4a;
+      --tag-conc-bg: #3d2c5e;
+      --tag-conc-text: #c9a0ff;
+      --tag-ritual-bg: #2c4a3d;
+      --tag-ritual-text: #7fd4a0;
+    }
+
+    .damage-Slashing { color: #8c8c8c; }
+    .damage-Piercing { color: #8c8c8c; }
+    .damage-Bludgening { color: #8c8c8c; }
+    .damage-Weapon { color: #8c8c8c; }
+    .damage-Force { color: #cc3333; }
+    .damage-Fire { color: #ee5500; }
+    .damage-Radiant { color: #ccaa00; }
+    .damage-Acid { color: #80b000; }
+    .damage-Poison { color: #44bb00; }
+    .damage-Necrotic { color: #40b050; }
+    .damage-Healing { color: #30bbbb; }
+    .damage-Cold { color: #3399cc; }
+    .damage-Lightning { color: #3366cc; }
+    .damage-Thunder { color: #8844bb; }
+    .damage-Psychic { color: #cc77aa; }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 0 10px;
+      border-bottom: 2px solid var(--accent-dim);
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      color: var(--text-heading);
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .legend {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 18px;
+      margin-bottom: 24px;
+      font-size: 0.9rem;
+    }
+
+    .legend-title {
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .legend .strikethrough-example {
+      text-decoration: line-through;
+      text-decoration-color: var(--strikethrough);
+      color: var(--text-secondary);
+    }
+
+    section {
+      margin-bottom: 36px;
+    }
+
+    section h2 {
+      color: var(--text-heading);
+      font-size: 1.4rem;
+      border-bottom: 1px solid var(--accent-dim);
+      padding-bottom: 6px;
+      margin-bottom: 6px;
+    }
+
+    section .section-desc {
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+
+    .spell-list {
+      list-style: none;
+      columns: 2;
+      column-gap: 24px;
+    }
+
+    @media (max-width: 640px) {
+      .spell-list { columns: 1; }
+    }
+
+    .spell-list li {
+      break-inside: avoid;
+      padding: 4px 0;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .spell-list li .spell-name {
+      color: var(--text-primary);
+    }
+
+    .spell-list li.crossed-out .spell-name {
+      text-decoration: line-through;
+      text-decoration-color: var(--strikethrough);
+      text-decoration-thickness: 2px;
+      color: var(--text-secondary);
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      vertical-align: middle;
+      margin-left: 2px;
+    }
+
+    .tag-conc {
+      background: var(--tag-conc-bg);
+      color: var(--tag-conc-text);
+    }
+
+    .tag-ritual {
+      background: var(--tag-ritual-bg);
+      color: var(--tag-ritual-text);
+    }
+
+    .spell-bullet {
+      color: var(--accent-dim);
+      margin-right: 4px;
+      flex-shrink: 0;
+    }
+
+    .crossed-out .spell-bullet {
+      color: var(--strikethrough);
+      opacity: 0.5;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+
+    footer a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    a {
+      color: rgb(190 120 40);
+    }
+
+    .toggle-banned a {
+      color: black;
+    }
+
+    .toggle-banned {
+      display: flex;
+      justify-content: center;
+    }
+
+    .toggle-banned button {
+      --color: #0077ff;
+      font-family: inherit;
+      display: inline-block;
+      width: 6em;
+      height: 2.6em;
+      line-height: 2.5em;
+      overflow: hidden;
+      cursor: pointer;
+      margin: 20px;
+      font-size: 17px;
+      z-index: 1;
+      color: var(--color);
+      border: 2px solid var(--color);
+      border-radius: 6px;
+      position: relative;
+    }
+
+    .toggle-banned button::before {
+      position: absolute;
+      content: "";
+      background: var(--color);
+      width: 150px;
+      height: 200px;
+      z-index: -1;
+      border-radius: 50%;
+    }
+
+    .toggle-banned button:hover {
+      color: white;
+    }
+
+    .toggle-banned button:before {
+      top: 100%;
+      left: 100%;
+      transition: 0.3s all;
+    }
+
+    .toggle-banned button:hover::before {
+      top: -30px;
+      left: -30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>List of all Spells</h1>
+      <p>Baldur's Gate 3 &mdash; Cantrips through Level 6</p>
+    </header>
+    <div class="toggle-banned">
+      <button><a href="?banned={{banned}}">Toggle Banned Spells</a></button>
+    </div>
+
+    {% for (level, spells) in spells.iter().enumerate() %}
+    <section id="Level {{level}} spells">
+      <h2>Level {{level}} spells</h2>
+      <ul class="spell-list">
+    {% for spell in spells %}
+        {% if spell.banned %}
+        <li class="crossed-out">
+        {% else %}
+        <li>
+        {% endif %}
+          <img src="{{spell.icon_url}}"/>
+          <span class="spell-name"><a href="{{spell.url}}">{{spell.name}}</a></span>
+          {% if let Some(damage) = spell.damage %}
+          {% if let Some(damage_ty) = spell.damage_type %}
+          <span class="damage-{{damage_ty}}">{{damage}} {{damage_ty}}</span>
+          {% endif %}
+          {% endif %}
+        </li>
+    {% endfor %}
+      </ul>
+    </section>
+    {% endfor %}
+    <footer>
+      <p>Data sourced from <a href="https://bg3.wiki/wiki/List_of_all_spells" target="_blank" rel="noopener">bg3.wiki</a>.</p>
+    </footer>
+  </div>
+</body>
+</html>
