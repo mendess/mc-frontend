@@ -1,4 +1,4 @@
-use crate::{Config, Error};
+use super::{Config, Error};
 use askama::Template;
 use axum::{
     extract::State,
@@ -15,7 +15,7 @@ use tokio_stream::{StreamExt as _, wrappers::ReadDirStream};
 use zip::write::SimpleFileOptions;
 
 #[derive(Debug, Default, Template)]
-#[template(path = "mods/index.html")]
+#[template(path = "minecraft/mods/index.html")]
 pub struct Mods {
     neoforge_version: String,
     required: Vec<Mod>,
@@ -35,7 +35,7 @@ pub struct Mod {
 const LATEST: &str = "latest";
 
 mod mod_pack {
-    use crate::{Error, mods::Mod};
+    use super::super::{Error, mods::Mod};
     use futures::{StreamExt, TryStreamExt, io};
     use serde::{Deserialize, Serialize};
     use std::{

@@ -1,4 +1,4 @@
-use crate::{Config, Error, logs};
+use super::{Config, Error, logs};
 use askama::Template;
 use axum::{
     extract::{Query, State},
@@ -114,7 +114,7 @@ struct Year {
 }
 
 #[derive(Debug, Template, Default)]
-#[template(path = "deaths/index.html")]
+#[template(path = "minecraft/deaths/index.html")]
 struct DeathsTemplate {
     years: Vec<Year>,
     no_year_enabled: bool,

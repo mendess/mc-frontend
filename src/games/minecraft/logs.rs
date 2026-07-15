@@ -1,4 +1,4 @@
-use crate::{Config, Error};
+use super::{Config, Error};
 use chrono::NaiveDateTime;
 use flate2::bufread::GzDecoder;
 use futures::{Stream, StreamExt};
