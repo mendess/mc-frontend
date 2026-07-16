@@ -25,7 +25,10 @@ RUN cargo build --release
 FROM debian:bookworm-slim
 
 RUN apt update && apt install -y ca-certificates
+WORKDIR /app
 COPY --from=build /mc-frontend/target/release/mc-frontend mc-frontend
 COPY ./assets ./assets
+RUN chmod 644 -R ./assets/* -v
+RUN chmod 755 ./assets/styles -v
 
 ENTRYPOINT ["./mc-frontend"]
