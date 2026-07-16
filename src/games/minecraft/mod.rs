@@ -15,7 +15,7 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use tower_http::services::{ServeDir, ServeFile};
+use tower_http::services::ServeDir;
 
 #[derive(Deserialize)]
 struct Config {
@@ -52,7 +52,6 @@ pub fn router() -> anyhow::Result<Router<()>> {
     let config = get_configuration()?;
     let router = Router::new()
         .route("/", get(index))
-        .nest_service("/favicon.ico", ServeFile::new("./assets/favicon.ico"))
         .route("/deaths", get(deaths::deaths))
         .route("/mods", get(mods::get_mods))
         .route("/mods/large-biomes.mrpack", get(mods::generate_mod_pack))

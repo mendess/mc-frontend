@@ -1,3 +1,4 @@
+mod favicon;
 mod games;
 
 use askama::Template;
@@ -30,6 +31,7 @@ async fn main() -> anyhow::Result<()> {
     let redirect = |s| axum::routing::any(Redirect::to(s));
     let router = Router::new()
         .route("/", get(async || Html(Index.render().unwrap())))
+        .route("/favicon.ico", get(favicon::serve))
         .route("/games/minecraft", redirect("/games/minecraft/"))
         .nest("/games/minecraft/", games::minecraft()?)
         .nest("/games/bg3/", games::bg3()?);
