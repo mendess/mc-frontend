@@ -7,6 +7,7 @@ use axum::{
     response::{Html, Redirect},
     routing::get,
 };
+use tower_http::services::ServeDir;
 use tracing::level_filters::LevelFilter;
 use tracing_subscriber::{EnvFilter, fmt, layer::SubscriberExt as _, util::SubscriberInitExt as _};
 
@@ -34,7 +35,8 @@ async fn main() -> anyhow::Result<()> {
         .route("/favicon.ico", get(favicon::serve))
         .route("/games/minecraft", redirect("/games/minecraft/"))
         .nest("/games/minecraft/", games::minecraft()?)
-        .nest("/games/bg3/", games::bg3()?);
+        .nest("/games/bg3/", games::bg3()?)
+        .nest_service("/assets/", ServeDir::new("./assets"));
     println!("serving at http://localhost:50002");
     axum::serve(
         tokio::net::TcpListener::bind("0.0.0.0:50002").await?,

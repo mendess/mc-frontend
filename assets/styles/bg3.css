@@ -1,0 +1,202 @@
+:root {
+  --bg-primary: rgb(35 35 35);
+  --bg-secondary-darker: rgb(70 40 0);
+  --bg-card: #0f3460;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0b0;
+  --text-heading: #e8d5b5;
+  --accent: #c9a84c;
+  --accent-dim: #8a6d3b;
+  --link: #6bb5ff;
+  --link-hover: #9dd0ff;
+  --strikethrough: #ff6b6b;
+  --border: #2a2a4a;
+  --tag-conc-bg: #3d2c5e;
+  --tag-conc-text: #c9a0ff;
+  --tag-ritual-bg: #2c4a3d;
+  --tag-ritual-text: #7fd4a0;
+}
+
+.damage-Slashing { color: #8c8c8c; }
+.damage-Piercing { color: #8c8c8c; }
+.damage-Bludgening { color: #8c8c8c; }
+.damage-Weapon { color: #8c8c8c; }
+.damage-Force { color: #cc3333; }
+.damage-Fire { color: #ee5500; }
+.damage-Radiant { color: #ccaa00; }
+.damage-Acid { color: #80b000; }
+.damage-Poison { color: #44bb00; }
+.damage-Necrotic { color: #40b050; }
+.damage-Healing { color: #30bbbb; }
+.damage-Cold { color: #3399cc; }
+.damage-Lightning { color: #3366cc; }
+.damage-Thunder { color: #8844bb; }
+.damage-Psychic { color: #cc77aa; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  padding: 30px 0 10px;
+  border-bottom: 2px solid var(--accent-dim);
+  margin-bottom: 20px;
+}
+
+header h1 {
+  color: var(--text-heading);
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+header p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+section {
+  margin-bottom: 36px;
+}
+
+section h2 {
+  color: var(--text-heading);
+  font-size: 1.4rem;
+  border-bottom: 1px solid var(--accent-dim);
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+}
+
+.spell-list {
+  list-style: none;
+  columns: 2;
+  column-gap: 24px;
+}
+
+@media (max-width: 640px) {
+  .spell-list { columns: 1; }
+}
+
+.spell-list li {
+  break-inside: avoid;
+  padding: 4px 0;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.spell-list li .spell-name {
+  color: var(--text-primary);
+}
+
+.spell-list li.crossed-out .spell-name {
+  text-decoration: line-through;
+  text-decoration-color: var(--strikethrough);
+  text-decoration-thickness: 2px;
+  color: var(--text-secondary);
+}
+
+.rules {
+  display: flex;
+  justify-content: center;
+}
+
+li {
+  margin-left: 10px;
+}
+
+li > ul {
+  margin-left: 10px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+footer a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+a {
+  color: rgb(190 120 40);
+}
+
+.toggle-banned a {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.toggle-banned {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  cursor: pointer;
+  margin: 20px;
+  font-size: 17px;
+  border: none;
+  padding: 6px 36px;
+  position: relative;
+  background-color: #a48b44;
+  clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+  filter: drop-shadow(0 4px 2px rgba(0, 0, 0, 0.6));
+  transition: filter 0.15s, transform 0.15s;
+  color: var(--text-primary);
+}
+
+button::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: linear-gradient(to bottom, #0a1e3d, #040e1e);
+  clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+  z-index: 0;
+  transition: background 0.15s;
+}
+
+button a {
+  position: relative;
+  z-index: 1;
+}
+
+button:hover {
+  transform: translateY(2px);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.4));
+}
+
+button:hover::after {
+  background: linear-gradient(to bottom, #0e2a4f, #071829);
+}
+
+button:active {
+  transform: translateY(3px);
+  filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0.3));
+}
+
+button:active::after {
+  background: linear-gradient(to bottom, #081a33, #030a14);
+}

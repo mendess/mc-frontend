@@ -1,15 +1,56 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <title>Mendess Gaming</title>
-  </head>
-  <body>
-    <h1>Games</h1>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('https://mendess.xyz/api/v1/walls/small/hercules.png') center/cover no-repeat fixed;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 24px;
+        }
+
+        li {
+            border-radius: 14px;
+        }
+
+        li:nth-child(1) { background: #b8d8ba; border: 1px solid #a0c8a2; }
+        li:nth-child(1):hover { background: #a8ccaa; }
+        li:nth-child(2) { background: #e0c4a8; border: 1px solid #d4b494; }
+        li:nth-child(2):hover { background: #d6b89c; }
+
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 120px;
+            padding: 20px;
+        }
+
+        a img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
     <ul>
-      <li><a href="./games/minecraft/">Minecraft</a></li>
-      <li><a href="./games/bg3/">Baldur's Gate 3</a></li>
+        <li><a href="./games/minecraft/"><img src="/assets/mc-logo.png" alt="Minecraft"></a></li>
+        <li><a href="./games/bg3/"><img src="/assets/bg3-logo.png" alt="Baldur's Gate 3"></a></li>
     </ul>
-
-  </body>
+</body>
 </html>
-
