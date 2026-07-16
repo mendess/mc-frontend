@@ -274,6 +274,11 @@
         {% endif %}
           <img src="{{spell.icon_url}}"/>
           <span class="spell-name"><a href="{{spell.url}}">{{spell.name}}</a></span>
+          {% if spell.range as u8 == 0 %}
+          <span><img height="30em" src="https://bg3.wiki/w/images/2/2a/Melee_Range_Icon.png"/></span>
+          {% else %}
+          <span><img height="25em" src="https://bg3.wiki/w/images/0/08/Range_Icon.png"/>{{spell.range as u8}}m</span>
+          {% endif %}
           {% if let Some(damage) = spell.damage %}
           {% if let Some(damage_ty) = spell.damage_type %}
           <span class="damage-{{damage_ty}}">{{damage}} {{damage_ty}}</span>
